@@ -1,0 +1,19 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.sourcesense.maven.tile</groupId>
+  <artifactId>maven-jetty-tile</artifactId>
+  <packaging>pom</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>Maven Tile - Maven Jetty Plugin configuration</name>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.mortbay.jetty</groupId>
+        <artifactId>jetty-maven-plugin</artifactId>
+        <version>8.0.0.M2</version>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

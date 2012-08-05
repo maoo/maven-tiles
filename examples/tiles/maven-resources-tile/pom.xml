@@ -1,0 +1,44 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.sourcesense.maven.tile</groupId>
+  <artifactId>maven-resources-tile</artifactId>
+  <packaging>pom</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>Maven Tile - Maven Resourcese Plugin configuration</name>
+
+  <properties>
+    <resources.plugin.filtering>false</resources.plugin.filtering>
+  </properties>
+
+  <build>
+    <resources>
+      <resource>
+        <filtering>${resources.plugin.filtering}</filtering>
+        <directory>src/main/resources</directory>
+      </resource>
+      <resource>
+        <filtering>${resources.plugin.filtering}</filtering>
+        <directory>src/main/java</directory>
+        <includes>
+          <include>**</include>
+        </includes>
+        <excludes>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </resource>
+    </resources>
+    <testResources>
+      <testResource>
+        <filtering>${resources.plugin.filtering}</filtering>
+        <directory>src/test/java</directory>
+        <includes>
+          <include>**</include>
+        </includes>
+        <excludes>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </testResource>
+    </testResources>
+  </build>
+
+</project>

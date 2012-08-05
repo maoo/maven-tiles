@@ -1,0 +1,31 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.sourcesense.maven.tile</groupId>
+  <artifactId>maven-compile-tile</artifactId>
+  <packaging>pom</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>Maven Tile - Maven Compile Plugin configuration</name>
+
+  <properties>
+    <compile.plugin.java.version>1.6</compile.plugin.java.version>
+    <compile.plugin.debug>false</compile.plugin.debug>
+    <compile.plugin.optimize>true</compile.plugin.optimize>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.2</version>
+        <inherited>true</inherited>
+        <configuration>
+          <source>${compile.plugin.java.version}</source>
+          <target>${compile.plugin.java.version}</target>
+          <optimize>${compile.plugin.optimize}</optimize>
+          <debug>${compile.plugin.debug}</debug>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

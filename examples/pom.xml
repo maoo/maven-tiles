@@ -1,0 +1,24 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.sourcesense.maven.plugins</groupId>
+  <artifactId>examples</artifactId>
+  <packaging>pom</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>Maven Tiles Parent POM</name>
+
+  <parent>
+    <groupId>com.sourcesense.maven.plugins</groupId>
+    <artifactId>maven-tiles</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+
+  <modules>
+    <module>tiles/maven-compile-tile</module>
+    <module>tiles/maven-eclipse-tile</module>
+    <module>tiles/maven-jetty-tile</module>
+    <module>tiles/maven-resources-tile</module>
+    <module>tiles/sourcesense-license-tile</module>
+    <module>tiles/sourcesense-repositories-tile</module>
+  </modules>
+
+</project>
