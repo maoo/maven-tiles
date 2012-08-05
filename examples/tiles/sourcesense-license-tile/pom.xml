@@ -1,6 +1,6 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.sourcesense.maven.tile</groupId>
+  <groupId>it.session.maven.tile</groupId>
   <artifactId>sourcesense-license-tile</artifactId>
   <packaging>pom</packaging>
   <version>1.0-SNAPSHOT</version>

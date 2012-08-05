@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.sourcesense.maven.tile</groupId>
+	<groupId>it.session.maven.tile</groupId>
 	<artifactId>wicket-quickstart</artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
@@ -9,12 +9,12 @@
 	<description>Wicket Quickstart to test tiles-maven-plugin</description>
 
   <properties>
-    <tile.1>com.sourcesense.maven.tile:maven-compile-tile:1.0-SNAPSHOT</tile.1>
-    <tile.2>com.sourcesense.maven.tile:maven-eclipse-tile:1.0-SNAPSHOT</tile.2>
-    <tile.3>com.sourcesense.maven.tile:maven-jetty-tile:1.0-SNAPSHOT</tile.3>
-    <tile.4>com.sourcesense.maven.tile:maven-resources-tile:1.0-SNAPSHOT</tile.4>
-    <tile.5>com.sourcesense.maven.tile:sourcesense-repositories-tile:1.0-SNAPSHOT</tile.5>
-    <tile.6>com.sourcesense.maven.tile:sourcesense-license-tile:1.0-SNAPSHOT</tile.6>
+    <tile.1>it.session.maven.tile:maven-compile-tile:1.0-SNAPSHOT</tile.1>
+    <tile.2>it.session.maven.tile:maven-eclipse-tile:1.0-SNAPSHOT</tile.2>
+    <tile.3>it.session.maven.tile:maven-jetty-tile:1.0-SNAPSHOT</tile.3>
+    <tile.4>it.session.maven.tile:maven-resources-tile:1.0-SNAPSHOT</tile.4>
+    <tile.5>it.session.maven.tile:sourcesense-repositories-tile:1.0-SNAPSHOT</tile.5>
+    <tile.6>it.session.maven.tile:sourcesense-license-tile:1.0-SNAPSHOT</tile.6>
 
     <compile.plugin.debug>true</compile.plugin.debug>
     <eclipse.plugin.download.sources>true</eclipse.plugin.download.sources>
@@ -64,36 +64,36 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>com.sourcesense.maven.plugins</groupId>
+        <groupId>it.session.maven.plugins</groupId>
         <artifactId>tiles-maven-plugin</artifactId>
         <version>1.0-SNAPSHOT</version>
         <dependencies>
         <dependency>
-          <groupId>com.sourcesense.maven.tile</groupId>
+          <groupId>it.session.maven.tile</groupId>
           <artifactId>maven-compile-tile</artifactId>
           <version>1.0-SNAPSHOT</version>
           <type>pom</type>
         </dependency>
         <dependency>
-          <groupId>com.sourcesense.maven.tile</groupId>
+          <groupId>it.session.maven.tile</groupId>
           <artifactId>maven-eclipse-tile</artifactId>
           <version>1.0-SNAPSHOT</version>
           <type>pom</type>
         </dependency>
         <dependency>
-          <groupId>com.sourcesense.maven.tile</groupId>
+          <groupId>it.session.maven.tile</groupId>
           <artifactId>maven-jetty-tile</artifactId>
           <version>1.0-SNAPSHOT</version>
           <type>pom</type>
         </dependency>
         <dependency>
-          <groupId>com.sourcesense.maven.tile</groupId>
+          <groupId>it.session.maven.tile</groupId>
           <artifactId>maven-resources-tile</artifactId>
           <version>1.0-SNAPSHOT</version>
           <type>pom</type>
         </dependency>
         <dependency>
-          <groupId>com.sourcesense.maven.tile</groupId>
+          <groupId>it.session.maven.tile</groupId>
           <artifactId>sourcesense-repositories-tile</artifactId>
           <version>1.0-SNAPSHOT</version>
           <type>pom</type>

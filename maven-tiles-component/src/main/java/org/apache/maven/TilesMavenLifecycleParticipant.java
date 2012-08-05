@@ -28,9 +28,9 @@ import java.util.StringTokenizer;
 /**
  * Fetches all dependencies defined in the POM <properties> as follows:
  *   <properties>
- *    <tile.1>com.sourcesense.maven.tile:maven-compile-tile:1.0-SNAPSHOT</tile.1>
- *    <tile.2>com.sourcesense.maven.tile:maven-eclipse-tile:1.0-SNAPSHOT</tile.2>
- *    <tile.3>com.sourcesense.maven.tile:maven-jetty-tile:1.0-SNAPSHOT</tile.3>
+ *    <tile.1>it.session.maven.tile:maven-compile-tile:1.0-SNAPSHOT</tile.1>
+ *    <tile.2>it.session.maven.tile:maven-eclipse-tile:1.0-SNAPSHOT</tile.2>
+ *    <tile.3>it.session.maven.tile:maven-jetty-tile:1.0-SNAPSHOT</tile.3>
  *   </properties>
  *
  * Dependencies are fetched using Aether {@link RepositorySystem}

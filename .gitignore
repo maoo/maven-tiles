@@ -1,1 +1,7 @@
 maven-tiles-component/target
+target
+*.ipr
+*.iml
+*.iws
+.idea
+
