@@ -1,0 +1,17 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>it.session.maven.tile</groupId>
+  <artifactId>session-license-tile</artifactId>
+  <packaging>pom</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>Maven Tile - session License</name>
+
+  <licenses>
+      <license>
+          <name>The Apache Software License, Version 2.0</name>
+          <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+          <distribution>repo</distribution>
+      </license>
+  </licenses>
+
+</project>
