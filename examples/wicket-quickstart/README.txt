@@ -10,10 +10,10 @@ in the following tiles:
 - ../tiles/maven-eclipse-tile
 - ../tiles/maven-jetty-tile
 - ../tiles/maven-resources-tile
-- ../tiles/sourcesense-license-tile
-- ../tiles/sourcesense-repositories-tile
+- ../tiles/session-license-tile
+- ../tiles/session-repositories-tile
 
-Please note the clear distinction between company-wide (sourcesense-*) and feature-driven (maven-*) tiles.
+Please note the clear distinction between company-wide (session-*) and feature-driven (maven-*) tiles.
 
 The tested goals, so far, are:
 

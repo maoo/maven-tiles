@@ -17,8 +17,8 @@
     <module>tiles/maven-eclipse-tile</module>
     <module>tiles/maven-jetty-tile</module>
     <module>tiles/maven-resources-tile</module>
-    <module>tiles/sourcesense-license-tile</module>
-    <module>tiles/sourcesense-repositories-tile</module>
+    <module>tiles/session-license-tile</module>
+    <module>tiles/session-repositories-tile</module>
   </modules>
 
 </project>

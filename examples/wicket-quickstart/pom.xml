@@ -13,8 +13,8 @@
     <tile.2>it.session.maven.tile:maven-eclipse-tile:1.0-SNAPSHOT</tile.2>
     <tile.3>it.session.maven.tile:maven-jetty-tile:1.0-SNAPSHOT</tile.3>
     <tile.4>it.session.maven.tile:maven-resources-tile:1.0-SNAPSHOT</tile.4>
-    <tile.5>it.session.maven.tile:sourcesense-repositories-tile:1.0-SNAPSHOT</tile.5>
-    <tile.6>it.session.maven.tile:sourcesense-license-tile:1.0-SNAPSHOT</tile.6>
+    <tile.5>it.session.maven.tile:session-repositories-tile:1.0-SNAPSHOT</tile.5>
+    <tile.6>it.session.maven.tile:session-license-tile:1.0-SNAPSHOT</tile.6>
 
     <compile.plugin.debug>true</compile.plugin.debug>
     <eclipse.plugin.download.sources>true</eclipse.plugin.download.sources>
@@ -94,7 +94,7 @@
         </dependency>
         <dependency>
           <groupId>it.session.maven.tile</groupId>
-          <artifactId>sourcesense-repositories-tile</artifactId>
+          <artifactId>session-repositories-tile</artifactId>
           <version>1.0-SNAPSHOT</version>
           <type>pom</type>
         </dependency>
