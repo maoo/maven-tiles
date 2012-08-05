@@ -60,47 +60,4 @@
     </dependency>
 
   </dependencies>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>it.session.maven.plugins</groupId>
-        <artifactId>tiles-maven-plugin</artifactId>
-        <version>1.0-SNAPSHOT</version>
-        <dependencies>
-        <dependency>
-          <groupId>it.session.maven.tile</groupId>
-          <artifactId>maven-compile-tile</artifactId>
-          <version>1.0-SNAPSHOT</version>
-          <type>pom</type>
-        </dependency>
-        <dependency>
-          <groupId>it.session.maven.tile</groupId>
-          <artifactId>maven-eclipse-tile</artifactId>
-          <version>1.0-SNAPSHOT</version>
-          <type>pom</type>
-        </dependency>
-        <dependency>
-          <groupId>it.session.maven.tile</groupId>
-          <artifactId>maven-jetty-tile</artifactId>
-          <version>1.0-SNAPSHOT</version>
-          <type>pom</type>
-        </dependency>
-        <dependency>
-          <groupId>it.session.maven.tile</groupId>
-          <artifactId>maven-resources-tile</artifactId>
-          <version>1.0-SNAPSHOT</version>
-          <type>pom</type>
-        </dependency>
-        <dependency>
-          <groupId>it.session.maven.tile</groupId>
-          <artifactId>session-repositories-tile</artifactId>
-          <version>1.0-SNAPSHOT</version>
-          <type>pom</type>
-        </dependency>
-        </dependencies>
-      </plugin>
-    </plugins>
-  </build>
-
 </project>
