@@ -14,6 +14,11 @@ Maven Tiles is a patch for Maven 3.0.2. It tries to bring a new level of modular
 to include multiple pom snippets into your project and overcoming the bottleneck of having the project's
 parent as single point of inheritance.
 
+Read more:
+- http://jira.codehaus.org/browse/MNG-5102
+- http://stackoverflow.com/questions/11749375/import-maven-plugin-configuration-by-composition-rather-than-inheritance-can-it
+- http://maven.40175.n5.nabble.com/Moving-forward-with-mixins-tc4421069.html
+
 + WHO'S THE TARGET
 
 This 3-days-long spike is targeted to the Maven community, users and developers.
