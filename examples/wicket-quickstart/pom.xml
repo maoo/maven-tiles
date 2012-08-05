@@ -3,10 +3,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>it.session.maven.tile</groupId>
 	<artifactId>wicket-quickstart</artifactId>
-	<packaging>war</packaging>
+	<packaging>pom</packaging>
 	<version>1.0-SNAPSHOT</version>
 	<name>wicket-quickstart</name>
 	<description>Wicket Quickstart to test tiles-maven-plugin</description>
+
+  <modules>
+    <module>runner</module>
+  </modules>
 
   <properties>
     <tile.1>it.session.maven.tile:maven-compile-tile:1.0-SNAPSHOT</tile.1>

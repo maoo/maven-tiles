@@ -19,7 +19,7 @@ Read more:
 - http://stackoverflow.com/questions/11749375/import-maven-plugin-configuration-by-composition-rather-than-inheritance-can-it
 - http://maven.40175.n5.nabble.com/Moving-forward-with-mixins-tc4421069.html
 
-## PROJECT STATUS
+## AUDIENCE
 
 Maven Tiles - in the current status - is targeted to the Maven community, users and developers.
 
@@ -58,6 +58,11 @@ configuration, which are commonly different for each project; moving it to anoth
 difficult for a dev to read it.
 I've tried to use it only for test purposes, to understand if the tile merging mechanism is correctly supported
 and does not cause issues to other plugins.
+
+## WHAT IS WORKING
+
+- Aggregate multiple tiles in one single pom (see examples/wicket-quickstart/pom.xml)
+- Tiles get inherited from parent (see examples/wicket-quickstart/runner/pom.xml)
 
 ## CURRENT ISSUES
 

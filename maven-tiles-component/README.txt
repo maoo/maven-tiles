@@ -4,8 +4,8 @@ Maven Core Patch
 + DESCRIPTION
 
 This is the code that does the job; it basically
-- Parses the project's Maven Model, finding all properties starting with "tile."
-- Fetches the tiles .pom files, using the following property name format: "tile. creating a Maven Model from it (Tile Model)
+- Parses the project's Maven Model, finding all properties starting with "tile.X", where X is the number that specifies the loading order of the tile
+- Fetches the tiles .pom files, parsing the property value as follows: "<groupId>:<artifactId>:<version>"
 - Merges the running project's Model with the Tile Model (using ModelMerger, an internal Maven class)
 
 + IMPLEMENTATION
