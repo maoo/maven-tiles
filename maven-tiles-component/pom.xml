@@ -6,7 +6,7 @@
   <name>Maven Tiles Core</name>
 
   <properties>
-    <mavenVersion>3.0.2</mavenVersion>
+    <mavenVersion>3.0.4</mavenVersion>
   </properties>
 
   <dependencies>
@@ -14,7 +14,23 @@
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-core</artifactId>
       <version>${mavenVersion}</version>
-      <scope>provided</scope>
+      <!-- <scope>provided</scope> -->
     </dependency>
   </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.plexus</groupId>
+        <artifactId>plexus-component-metadata</artifactId>
+        <version>1.5.5</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>generate-metadata</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 </project>
