@@ -7,7 +7,7 @@
   <name>Maven Tiles Parent POM</name>
 
   <modules>
-    <module>maven-tiles-component</module>
+    <module>tiles-maven-plugin</module>
     <module>examples</module>
   </modules>
 

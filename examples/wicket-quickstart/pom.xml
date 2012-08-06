@@ -66,17 +66,10 @@
   </dependencies>
 
   <build>
-<!--     <extensions>
-      <extension>
-        <groupId>it.session.maven.tiles</groupId>
-        <artifactId>maven-tiles-core</artifactId>
-        <version>1.0-SNAPSHOT</version>
-      </extension>
-    </extensions>
- -->    <plugins>
+    <plugins>
       <plugin>
         <groupId>it.session.maven.tiles</groupId>
-        <artifactId>maven-tiles-core</artifactId>
+        <artifactId>tiles-maven-plugin</artifactId>
         <version>1.0-SNAPSHOT</version>
         <extensions>true</extensions>
       </plugin>
