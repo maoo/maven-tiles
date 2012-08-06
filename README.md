@@ -5,8 +5,7 @@
 Prerequisites: Maven 3.0.2+ installed, M2_HOME/bin in your path
 
 1. mvn clean install
-2. cp maven-tiles-component/target/maven-tiles-core-1.0-SNAPSHOT.jar $M2_HOME/lib (check if $M2_HOME is set first)
-3. cd examples/wicket-quickstart && mvn jetty:run
+2. cd examples/wicket-quickstart && mvn jetty:run
 
 ## WHAT IS MAVEN TILES
 
