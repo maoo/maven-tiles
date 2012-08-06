@@ -10,7 +10,7 @@ Prerequisites: Maven 3.0.2+ installed, M2_HOME/bin in your path
 
 ## WHAT IS MAVEN TILES
 
-Maven Tiles is a patch for Maven 3.x. It tries to bring a new level of modularity to Maven, allowing
+Maven Tiles is a Maven Plugin (tiles-maven-plugin) that tries to bring a new level of modularity to Maven, allowing
 to include multiple pom snippets into your project and overcoming the bottleneck of having the project's
 parent as single point of inheritance.
 
@@ -63,6 +63,13 @@ and does not cause issues to other plugins.
 
 - Aggregate multiple tiles in one single pom (see examples/wicket-quickstart/pom.xml)
 - Tiles get inherited from parent (see examples/wicket-quickstart/runner/pom.xml)
+
+## WHAT NEEDS TO BE TESTED
+
+- Maven properties defined within a tile should be visible from others
+- What happens when 2 tiles define the same configuration?
+- What happens when 2 tiles define 2 different executions of the same plugin?
+
 
 ## CURRENT ISSUES
 
