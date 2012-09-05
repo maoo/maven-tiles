@@ -42,12 +42,21 @@ import static org.mockito.Matchers.same;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+/**
+ * If testMergeTile fails with java.io.FileNotFoundException: src/test/resources/licenses-tile-pom.xml
+ * (No such file or directory)) when running the test from your IDE, make sure you configure the Working
+ * Directory as maven-tiles/tiles-maven-plugin (absolute path)
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class TilesMavenLifecycleParticipantTest {
 
   TilesMavenLifecycleParticipant participant;
   RepositorySystem mockRepositorySystem;
   RepositorySystemSession defaultRepositorySystemSession;
+
+  private final static String TILE_TEST_COORDINATES = "it.session.maven.tile:session-repositories-tile:1.0-SNAPSHOT";
+  private final static String TILE_TEST_POM_PATH = "src/test/resources/licenses-tile-pom.xml";
+  private final static String TILE_TEST_PROPERTY_NAME = "tile.test";
 
   @Before
   public void setupParticipant() {
@@ -92,21 +101,20 @@ public class TilesMavenLifecycleParticipantTest {
   @Test
   public void testMergeTile() throws MavenExecutionException, IOException, ArtifactResolutionException {
     MavenProject mavenProject = new MavenProject();
-    mavenProject.getProperties().setProperty("tile.test","it.session.maven.tile:session-repositories-tile:1.0-SNAPSHOT");
+    mavenProject.getProperties().setProperty(TILE_TEST_PROPERTY_NAME,TILE_TEST_COORDINATES);
 
     ArtifactResult tileArtifactResult = new ArtifactResult(new ArtifactRequest());
-    DefaultArtifact dummyArtifact = new DefaultArtifact("it.session.maven.tile:session-repositories-tile:1.0-SNAPSHOT");
-    tileArtifactResult.setArtifact(dummyArtifact.setFile(new File("tiles-maven-plugin/src/test/resources/licenses-tile-pom.xml")));
+    DefaultArtifact dummyArtifact = new DefaultArtifact(TILE_TEST_COORDINATES);
+    tileArtifactResult.setArtifact(dummyArtifact.setFile(new File(TILE_TEST_POM_PATH)));
 
     this.mockRepositoryWithProvidedArtifact(tileArtifactResult);
 
     assertTrue(mavenProject.getLicenses().size() == 0);
-    participant.mergeTile(mavenProject,"tile.test",defaultRepositorySystemSession);
+    participant.mergeTile(mavenProject,TILE_TEST_PROPERTY_NAME,defaultRepositorySystemSession);
     assertTrue(mavenProject.getLicenses().size() != 0);
   }
 
   private void mockRepositoryWithProvidedArtifact(ArtifactResult artifactResult) throws ArtifactResolutionException {
     when(this.mockRepositorySystem.resolveArtifact(same(defaultRepositorySystemSession), any(ArtifactRequest.class))).thenReturn(artifactResult);
   }
-
 }
