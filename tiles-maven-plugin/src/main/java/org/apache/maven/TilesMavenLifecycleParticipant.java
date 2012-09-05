@@ -39,14 +39,17 @@ import java.util.StringTokenizer;
 @Component(role = AbstractMavenLifecycleParticipant.class, hint = "TilesMavenLifecycleParticipant")
 public class TilesMavenLifecycleParticipant extends AbstractMavenLifecycleParticipant {
 
-  private MavenXpp3Reader reader = new MavenXpp3Reader();
-  private ModelMerger modelMerger = new ModelMerger();
+  protected static final String TILE_EXTENSION = "pom";
+  protected static final String TILE_PROPERTY_PREFIX = "tile.";
+
+  protected final MavenXpp3Reader reader = new MavenXpp3Reader();
+  protected final ModelMerger modelMerger = new ModelMerger();
 
   @Requirement
-  private Logger logger;
+  protected Logger logger;
 
   @Requirement
-  private RepositorySystem repositorySystem;
+  protected RepositorySystem repositorySystem;
 
   protected File resolveArtifact(MavenProject currentProject,
                                  String groupId,
@@ -54,7 +57,7 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
                                  String version,
                                  RepositorySystemSession repoSession) throws MojoExecutionException {
     try {
-      Artifact tileArtifact = new DefaultArtifact(groupId, artifactId, "pom", version);
+      Artifact tileArtifact = new DefaultArtifact(groupId, artifactId, TILE_EXTENSION, version);
       ArtifactRequest request = new ArtifactRequest();
       request.setArtifact(tileArtifact);
       request.setRepositories(currentProject.getRemoteProjectRepositories());
@@ -78,7 +81,7 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
       Enumeration propertyNames = session.getCurrentProject().getProperties().propertyNames();
       while (propertyNames.hasMoreElements()) {
         String propertyName = (String) propertyNames.nextElement();
-        if (propertyName.startsWith("tile.")) {
+        if (propertyName.startsWith(TILE_PROPERTY_PREFIX)) {
           String propertyValue = session.getCurrentProject().getProperties().getProperty(propertyName);
           StringTokenizer propertyTokens = new StringTokenizer(propertyValue, ":");
 
@@ -101,12 +104,10 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
                 version,
                 session.getRepositorySession());
 
-            //TODO - need to improve here
             Model tileModel = this.reader.read(new FileInputStream(artifactFile));
-            this.modelMerger.merge(session.getCurrentProject().getOriginalModel(), tileModel, false, null);
             this.modelMerger.merge(session.getCurrentProject().getModel(), tileModel, false, null);
-            this.modelMerger.merge(session.getTopLevelProject().getModel(), tileModel, false, null);
             logger.info(String.format("Loaded Maven Tile " +currentTileInformation));
+
           } catch (FileNotFoundException e) {
             throw new MavenExecutionException("Error loading tile " + currentTileInformation, e);
           } catch (XmlPullParserException e) {

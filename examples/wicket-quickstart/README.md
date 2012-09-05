@@ -1,7 +1,5 @@
-Wicket Quickstart (197: remote -> wicket-archetype-quickstart)
-----
+This project is the exact replica of [wicket-archetype-quickstart 1.5-RC4.2](http://search.maven.org/#artifactdetails%7Corg.apache.wicket%7Cwicket-archetype-quickstart%7C1.5-RC4.2%7Cmaven-archetype) that have been decomposed in the following tiles:
 
-+ DESCRIPTION
 
 This module is an example taken from the repo1.maven.org archetype catalog and it has been decomposed
 in the following tiles:
@@ -17,7 +15,7 @@ Please note the clear distinction between company-wide (session-*) and feature-d
 
 The tested goals, so far, are:
 
-- mvn clean install (tests included)
+- mvn clean install
 - mvn eclipse:eclipse
 - mvn jetty:run
 - mvn help:effective-pom
