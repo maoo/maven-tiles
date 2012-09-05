@@ -51,24 +51,38 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
   @Requirement
   protected RepositorySystem repositorySystem;
 
-  protected File resolveArtifact(MavenProject currentProject,
+  //Only used for testing purposes
+  public void setRepositorySystem(RepositorySystem repositorySystem) {
+      this.repositorySystem = repositorySystem;
+  }
+
+    protected Artifact getArtifactFromCoordinates(String groupId, String artifactId, String version) {
+        return new DefaultArtifact(groupId, artifactId, TILE_EXTENSION, version);
+    }
+
+    protected ArtifactRequest getArtifactRequestFromArtifact(Artifact tileArtifact, MavenProject mavenProject) {
+        ArtifactRequest request = new ArtifactRequest();
+        request.setArtifact(tileArtifact);
+        request.setRepositories(mavenProject.getRemoteProjectRepositories());
+        return request;
+    }
+
+    protected File resolveArtifact(MavenProject currentProject,
                                  String groupId,
                                  String artifactId,
                                  String version,
-                                 RepositorySystemSession repoSession) throws MojoExecutionException {
+                                 RepositorySystemSession repositorySystemSession) throws MojoExecutionException {
     try {
-      Artifact tileArtifact = new DefaultArtifact(groupId, artifactId, TILE_EXTENSION, version);
-      ArtifactRequest request = new ArtifactRequest();
-      request.setArtifact(tileArtifact);
-      request.setRepositories(currentProject.getRemoteProjectRepositories());
-      ArtifactResult result = this.repositorySystem.resolveArtifact(repoSession, request);
+      Artifact tileArtifact = getArtifactFromCoordinates(groupId, artifactId, version);
+      ArtifactRequest request = getArtifactRequestFromArtifact(tileArtifact, currentProject);
+      ArtifactResult result = this.repositorySystem.resolveArtifact(repositorySystemSession, request);
       return result.getArtifact().getFile();
     } catch (ArtifactResolutionException e) {
       throw new MojoExecutionException(String.format("Error resolving artifact %s:%s:%s", groupId, artifactId, version));
     }
   }
 
-  /**
+    /**
    * Invoked after all MavenProject instances have been created.
    * <p/>
    * This callback is intended to allow extensions to manipulate MavenProjects
@@ -76,49 +90,50 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
    */
   public void afterProjectsRead(MavenSession session)
       throws MavenExecutionException {
-    if (session.getCurrentProject().getBuild() != null) {
+      final MavenProject currentProject = session.getCurrentProject();
+      if (currentProject.getBuild() != null) {
 
-      Enumeration propertyNames = session.getCurrentProject().getProperties().propertyNames();
-      while (propertyNames.hasMoreElements()) {
-        String propertyName = (String) propertyNames.nextElement();
-        if (propertyName.startsWith(TILE_PROPERTY_PREFIX)) {
-          String propertyValue = session.getCurrentProject().getProperties().getProperty(propertyName);
-          StringTokenizer propertyTokens = new StringTokenizer(propertyValue, ":");
+          Enumeration propertyNames = currentProject.getProperties().propertyNames();
+          while (propertyNames.hasMoreElements()) {
+            String propertyName = (String) propertyNames.nextElement();
+            if (propertyName.startsWith(TILE_PROPERTY_PREFIX)) {
+              String propertyValue = currentProject.getProperties().getProperty(propertyName);
+              StringTokenizer propertyTokens = new StringTokenizer(propertyValue, ":");
 
-          String groupId = propertyTokens.nextToken();
-          String artifactId = propertyTokens.nextToken();
-          String version = propertyTokens.nextToken();
+              String groupId = propertyTokens.nextToken();
+              String artifactId = propertyTokens.nextToken();
+              String version = propertyTokens.nextToken();
 
-          String currentTileInformation =
-              String.format("'%s:%s:%s'",
-                  groupId,
-                  artifactId,
-                  version);
+              String currentTileInformation =
+                  String.format("'%s:%s:%s'",
+                      groupId,
+                      artifactId,
+                      version);
 
-          try {
+              try {
 
-            File artifactFile = this.resolveArtifact(
-                session.getCurrentProject(),
-                groupId,
-                artifactId,
-                version,
-                session.getRepositorySession());
+                File artifactFile = this.resolveArtifact(
+                        currentProject,
+                    groupId,
+                    artifactId,
+                    version,
+                    session.getRepositorySession());
 
-            Model tileModel = this.reader.read(new FileInputStream(artifactFile));
-            this.modelMerger.merge(session.getCurrentProject().getModel(), tileModel, false, null);
-            logger.info(String.format("Loaded Maven Tile " +currentTileInformation));
+                Model tileModel = this.reader.read(new FileInputStream(artifactFile));
+                this.modelMerger.merge(currentProject.getModel(), tileModel, false, null);
+                logger.info(String.format("Loaded Maven Tile " +currentTileInformation));
 
-          } catch (FileNotFoundException e) {
-            throw new MavenExecutionException("Error loading tile " + currentTileInformation, e);
-          } catch (XmlPullParserException e) {
-            throw new MavenExecutionException("Error building tile " + currentTileInformation, e);
-          } catch (IOException e) {
-            throw new MavenExecutionException("Error parsing tile " + currentTileInformation, e);
-          } catch (MojoExecutionException e) {
-            throw new MavenExecutionException("Error retrieving tile " + currentTileInformation, e);
+              } catch (FileNotFoundException e) {
+                throw new MavenExecutionException("Error loading tile " + currentTileInformation, e);
+              } catch (XmlPullParserException e) {
+                throw new MavenExecutionException("Error building tile " + currentTileInformation, e);
+              } catch (IOException e) {
+                throw new MavenExecutionException("Error parsing tile " + currentTileInformation, e);
+              } catch (MojoExecutionException e) {
+                throw new MavenExecutionException("Error retrieving tile " + currentTileInformation, e);
+              }
+            }
           }
-        }
       }
-    }
   }
 }

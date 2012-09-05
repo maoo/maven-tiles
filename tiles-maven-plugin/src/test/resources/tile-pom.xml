@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>it.session.maven.tile</groupId>
+  <artifactId>session-repositories-tile</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>Maven Tile - session Repositories</name>
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <properties>
+    <compile.plugin.version>2.3.2</compile.plugin.version>
+    <compile.plugin.debug>false</compile.plugin.debug>
+    <compile.plugin.optimize>true</compile.plugin.optimize>
+    <compile.plugin.java.version>1.6</compile.plugin.java.version>
+  </properties>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${compile.plugin.version}</version>
+        <inherited>true</inherited>
+        <configuration>
+          <source>${compile.plugin.java.version}</source>
+          <target>${compile.plugin.java.version}</target>
+          <optimize>${compile.plugin.optimize}</optimize>
+          <debug>${compile.plugin.debug}</debug>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
