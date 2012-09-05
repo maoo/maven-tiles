@@ -82,59 +82,68 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
     }
   }
 
+  protected void mergeTile(MavenProject currentProject, String propertyName, RepositorySystemSession repositorySystemSession) throws MavenExecutionException {
+    String propertyValue = currentProject.getProperties().getProperty(propertyName);
+    StringTokenizer propertyTokens = new StringTokenizer(propertyValue, ":");
+
+    String groupId = propertyTokens.nextToken();
+    String artifactId = propertyTokens.nextToken();
+    String version = propertyTokens.nextToken();
+
+    String currentTileInformation =
+        String.format("'%s:%s:%s'",
+            groupId,
+            artifactId,
+            version);
+
+    try {
+      File artifactFile = this.resolveArtifact(
+          currentProject,
+          groupId,
+          artifactId,
+          version,
+          repositorySystemSession);
+
+      Model tileModel = this.reader.read(new FileInputStream(artifactFile));
+      this.modelMerger.merge(currentProject.getModel(), tileModel, false, null);
+
+      //If invoked by tests, logger is null
+      //@TODO properly inject logger on TilesMavenLifecycleParticipantTest.java
+      if (logger != null) {
+        logger.info(String.format("Loaded Maven Tile " + currentTileInformation));
+      }
+
+    } catch (FileNotFoundException e) {
+      throw new MavenExecutionException("Error loading tile " + currentTileInformation, e);
+    } catch (XmlPullParserException e) {
+      throw new MavenExecutionException("Error building tile " + currentTileInformation, e);
+    } catch (IOException e) {
+      throw new MavenExecutionException("Error parsing tile " + currentTileInformation, e);
+    } catch (MojoExecutionException e) {
+      throw new MavenExecutionException("Error retrieving tile " + currentTileInformation, e);
+    }
+  }
+
   /**
    * Invoked after all MavenProject instances have been created.
    * <p/>
    * This callback is intended to allow extensions to manipulate MavenProjects
    * before they are sorted and actual build execution starts.
    */
-  public void afterProjectsRead(MavenSession session)
+  public void afterProjectsRead(MavenSession mavenSession)
       throws MavenExecutionException {
-    final MavenProject currentProject = session.getCurrentProject();
-    if (currentProject.getBuild() != null) {
 
+    final MavenProject currentProject = mavenSession.getCurrentProject();
+
+    if (currentProject.getBuild() != null) {
       Enumeration propertyNames = currentProject.getProperties().propertyNames();
       while (propertyNames.hasMoreElements()) {
         String propertyName = (String) propertyNames.nextElement();
         if (propertyName.startsWith(TILE_PROPERTY_PREFIX)) {
-
-          String propertyValue = currentProject.getProperties().getProperty(propertyName);
-          StringTokenizer propertyTokens = new StringTokenizer(propertyValue, ":");
-
-          String groupId = propertyTokens.nextToken();
-          String artifactId = propertyTokens.nextToken();
-          String version = propertyTokens.nextToken();
-
-          String currentTileInformation =
-              String.format("'%s:%s:%s'",
-                  groupId,
-                  artifactId,
-                  version);
-
-          try {
-
-            File artifactFile = this.resolveArtifact(
-                currentProject,
-                groupId,
-                artifactId,
-                version,
-                session.getRepositorySession());
-
-            Model tileModel = this.reader.read(new FileInputStream(artifactFile));
-            this.modelMerger.merge(currentProject.getModel(), tileModel, false, null);
-            logger.info(String.format("Loaded Maven Tile " + currentTileInformation));
-
-          } catch (FileNotFoundException e) {
-            throw new MavenExecutionException("Error loading tile " + currentTileInformation, e);
-          } catch (XmlPullParserException e) {
-            throw new MavenExecutionException("Error building tile " + currentTileInformation, e);
-          } catch (IOException e) {
-            throw new MavenExecutionException("Error parsing tile " + currentTileInformation, e);
-          } catch (MojoExecutionException e) {
-            throw new MavenExecutionException("Error retrieving tile " + currentTileInformation, e);
-          }
+          mergeTile(currentProject, propertyName, mavenSession.getRepositorySession());
         }
       }
     }
   }
+
 }
