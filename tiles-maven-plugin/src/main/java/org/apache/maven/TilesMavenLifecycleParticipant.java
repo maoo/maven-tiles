@@ -27,12 +27,12 @@ import java.util.StringTokenizer;
 
 /**
  * Fetches all dependencies defined in the POM <properties> as follows:
- *   <properties>
- *    <tile.1>it.session.maven.tile:maven-compile-tile:1.0-SNAPSHOT</tile.1>
- *    <tile.2>it.session.maven.tile:maven-eclipse-tile:1.0-SNAPSHOT</tile.2>
- *    <tile.3>it.session.maven.tile:maven-jetty-tile:1.0-SNAPSHOT</tile.3>
- *   </properties>
- *
+ * <properties>
+ * <tile.1>it.session.maven.tile:maven-compile-tile:1.0-SNAPSHOT</tile.1>
+ * <tile.2>it.session.maven.tile:maven-eclipse-tile:1.0-SNAPSHOT</tile.2>
+ * <tile.3>it.session.maven.tile:maven-jetty-tile:1.0-SNAPSHOT</tile.3>
+ * </properties>
+ * <p/>
  * Dependencies are fetched using Aether {@link RepositorySystem}
  * Merging operation is delegated to {@link ModelMerger}
  */
@@ -53,21 +53,21 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
 
   //Only used for testing purposes
   public void setRepositorySystem(RepositorySystem repositorySystem) {
-      this.repositorySystem = repositorySystem;
+    this.repositorySystem = repositorySystem;
   }
 
-    protected Artifact getArtifactFromCoordinates(String groupId, String artifactId, String version) {
-        return new DefaultArtifact(groupId, artifactId, TILE_EXTENSION, version);
-    }
+  protected Artifact getArtifactFromCoordinates(String groupId, String artifactId, String version) {
+    return new DefaultArtifact(groupId, artifactId, TILE_EXTENSION, version);
+  }
 
-    protected ArtifactRequest getArtifactRequestFromArtifact(Artifact tileArtifact, MavenProject mavenProject) {
-        ArtifactRequest request = new ArtifactRequest();
-        request.setArtifact(tileArtifact);
-        request.setRepositories(mavenProject.getRemoteProjectRepositories());
-        return request;
-    }
+  protected ArtifactRequest getArtifactRequestFromArtifact(Artifact tileArtifact, MavenProject mavenProject) {
+    ArtifactRequest request = new ArtifactRequest();
+    request.setArtifact(tileArtifact);
+    request.setRepositories(mavenProject.getRemoteProjectRepositories());
+    return request;
+  }
 
-    protected File resolveArtifact(MavenProject currentProject,
+  protected File resolveArtifact(MavenProject currentProject,
                                  String groupId,
                                  String artifactId,
                                  String version,
@@ -82,7 +82,7 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
     }
   }
 
-    /**
+  /**
    * Invoked after all MavenProject instances have been created.
    * <p/>
    * This callback is intended to allow extensions to manipulate MavenProjects
@@ -90,50 +90,51 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
    */
   public void afterProjectsRead(MavenSession session)
       throws MavenExecutionException {
-      final MavenProject currentProject = session.getCurrentProject();
-      if (currentProject.getBuild() != null) {
+    final MavenProject currentProject = session.getCurrentProject();
+    if (currentProject.getBuild() != null) {
 
-          Enumeration propertyNames = currentProject.getProperties().propertyNames();
-          while (propertyNames.hasMoreElements()) {
-            String propertyName = (String) propertyNames.nextElement();
-            if (propertyName.startsWith(TILE_PROPERTY_PREFIX)) {
-              String propertyValue = currentProject.getProperties().getProperty(propertyName);
-              StringTokenizer propertyTokens = new StringTokenizer(propertyValue, ":");
+      Enumeration propertyNames = currentProject.getProperties().propertyNames();
+      while (propertyNames.hasMoreElements()) {
+        String propertyName = (String) propertyNames.nextElement();
+        if (propertyName.startsWith(TILE_PROPERTY_PREFIX)) {
 
-              String groupId = propertyTokens.nextToken();
-              String artifactId = propertyTokens.nextToken();
-              String version = propertyTokens.nextToken();
+          String propertyValue = currentProject.getProperties().getProperty(propertyName);
+          StringTokenizer propertyTokens = new StringTokenizer(propertyValue, ":");
 
-              String currentTileInformation =
-                  String.format("'%s:%s:%s'",
-                      groupId,
-                      artifactId,
-                      version);
+          String groupId = propertyTokens.nextToken();
+          String artifactId = propertyTokens.nextToken();
+          String version = propertyTokens.nextToken();
 
-              try {
+          String currentTileInformation =
+              String.format("'%s:%s:%s'",
+                  groupId,
+                  artifactId,
+                  version);
 
-                File artifactFile = this.resolveArtifact(
-                        currentProject,
-                    groupId,
-                    artifactId,
-                    version,
-                    session.getRepositorySession());
+          try {
 
-                Model tileModel = this.reader.read(new FileInputStream(artifactFile));
-                this.modelMerger.merge(currentProject.getModel(), tileModel, false, null);
-                logger.info(String.format("Loaded Maven Tile " +currentTileInformation));
+            File artifactFile = this.resolveArtifact(
+                currentProject,
+                groupId,
+                artifactId,
+                version,
+                session.getRepositorySession());
 
-              } catch (FileNotFoundException e) {
-                throw new MavenExecutionException("Error loading tile " + currentTileInformation, e);
-              } catch (XmlPullParserException e) {
-                throw new MavenExecutionException("Error building tile " + currentTileInformation, e);
-              } catch (IOException e) {
-                throw new MavenExecutionException("Error parsing tile " + currentTileInformation, e);
-              } catch (MojoExecutionException e) {
-                throw new MavenExecutionException("Error retrieving tile " + currentTileInformation, e);
-              }
-            }
+            Model tileModel = this.reader.read(new FileInputStream(artifactFile));
+            this.modelMerger.merge(currentProject.getModel(), tileModel, false, null);
+            logger.info(String.format("Loaded Maven Tile " + currentTileInformation));
+
+          } catch (FileNotFoundException e) {
+            throw new MavenExecutionException("Error loading tile " + currentTileInformation, e);
+          } catch (XmlPullParserException e) {
+            throw new MavenExecutionException("Error building tile " + currentTileInformation, e);
+          } catch (IOException e) {
+            throw new MavenExecutionException("Error parsing tile " + currentTileInformation, e);
+          } catch (MojoExecutionException e) {
+            throw new MavenExecutionException("Error retrieving tile " + currentTileInformation, e);
           }
+        }
       }
+    }
   }
 }
