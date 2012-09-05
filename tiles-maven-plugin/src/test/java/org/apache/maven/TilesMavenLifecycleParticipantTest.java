@@ -20,6 +20,7 @@ import org.sonatype.aether.artifact.Artifact;
 import org.sonatype.aether.resolution.ArtifactRequest;
 import org.sonatype.aether.resolution.ArtifactResolutionException;
 import org.sonatype.aether.resolution.ArtifactResult;
+import org.sonatype.aether.util.DefaultRepositorySystemSession;
 import org.sonatype.aether.util.artifact.DefaultArtifact;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -52,13 +53,13 @@ public class TilesMavenLifecycleParticipantTest {
     @Test
     public void testResolveArtifact() throws ArtifactResolutionException, MojoExecutionException {
         RepositorySystem mockRepositorySystem = mock(RepositorySystem.class);
-        RepositorySystemSession mockRepositorySystemSession = mock(RepositorySystemSession.class);
+        RepositorySystemSession dummyRepositorySystemSession = new DefaultRepositorySystemSession();
         MavenProject emptyMavenProject = new MavenProject();
         ArtifactResult dummyArtifactResult = makeDummyArtifactResult();
-        when(mockRepositorySystem.resolveArtifact(same(mockRepositorySystemSession), any(ArtifactRequest.class))).thenReturn(dummyArtifactResult);
+        when(mockRepositorySystem.resolveArtifact(same(dummyRepositorySystemSession), any(ArtifactRequest.class))).thenReturn(dummyArtifactResult);
 
         participant.setRepositorySystem(mockRepositorySystem);
-        File artifactFile = participant.resolveArtifact(emptyMavenProject, groupId, artifactId, version, mockRepositorySystemSession);
+        File artifactFile = participant.resolveArtifact(emptyMavenProject, groupId, artifactId, version, dummyRepositorySystemSession);
 
         assertNotNull(artifactFile);
     }
