@@ -12,20 +12,25 @@
   See the License for the specific language governing permissions and
   limitations under the License. See accompanying LICENSE file.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project>
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>runner</artifactId>
-  <packaging>war</packaging>
-  <name>wicket-quickstart runner</name>
-  <description>Wicket Quickstart to test tiles-maven-plugin</description>
+  <artifactId>tiles-parent</artifactId>
+  <packaging>pom</packaging>
+  <name>Maven Tiles Parent POM</name>
 
   <parent>
     <groupId>it.session.maven</groupId>
-    <artifactId>wicket-quickstart</artifactId>
+    <artifactId>maven-tiles-parent</artifactId>
     <version>0.8-SNAPSHOT</version>
   </parent>
-  <properties>
-    <tile.3>it.session.maven.tiles:maven-jetty-tile:1.0-SNAPSHOT</tile.3>
-  </properties>
+
+  <modules>
+    <module>maven-compile-tile</module>
+    <module>maven-eclipse-tile</module>
+    <module>maven-jetty-tile</module>
+    <module>maven-resources-tile</module>
+    <module>session-license-tile</module>
+    <module>session-repositories-tile</module>
+  </modules>
+
 </project>

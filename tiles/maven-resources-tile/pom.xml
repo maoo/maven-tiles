@@ -14,7 +14,7 @@
 -->
 <project>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>it.session.maven.tile</groupId>
+  <groupId>it.session.maven.tiles</groupId>
   <artifactId>maven-resources-tile</artifactId>
   <packaging>pom</packaging>
   <version>1.0-SNAPSHOT</version>

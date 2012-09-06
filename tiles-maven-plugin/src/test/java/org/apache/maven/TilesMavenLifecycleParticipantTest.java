@@ -43,7 +43,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * If testMergeTile fails with java.io.FileNotFoundException: src/test/resources/licenses-tile-pom.xml
+ * If testMergeTile fails with java.io.FileNotFoundException: src/test/resources/licenses-tiles-pom.xml
  * (No such file or directory)) when running the test from your IDE, make sure you configure the Working
  * Directory as maven-tiles/tiles-maven-plugin (absolute path)
  */
@@ -54,9 +54,9 @@ public class TilesMavenLifecycleParticipantTest {
   RepositorySystem mockRepositorySystem;
   RepositorySystemSession defaultRepositorySystemSession;
 
-  private final static String TILE_TEST_COORDINATES = "it.session.maven.tile:session-repositories-tile:1.0-SNAPSHOT";
+  private final static String TILE_TEST_COORDINATES = "it.session.maven.tiles:session-repositories-tile:1.0-SNAPSHOT";
   private final static String TILE_TEST_POM_PATH = "src/test/resources/licenses-tile-pom.xml";
-  private final static String TILE_TEST_PROPERTY_NAME = "tile.test";
+  private final static String TILE_TEST_PROPERTY_NAME = "tiles.test";
 
   @Before
   public void setupParticipant() {

@@ -1,4 +1,4 @@
-package it.session.maven.tile;
+package it.session.maven.tiles;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;

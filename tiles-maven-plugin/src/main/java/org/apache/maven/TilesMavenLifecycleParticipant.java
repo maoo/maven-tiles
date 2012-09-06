@@ -44,9 +44,9 @@ import java.util.StringTokenizer;
 /**
  * Fetches all dependencies defined in the POM <properties> as follows:
  * <properties>
- * <tile.1>it.session.maven.tile:maven-compile-tile:1.0-SNAPSHOT</tile.1>
- * <tile.2>it.session.maven.tile:maven-eclipse-tile:1.0-SNAPSHOT</tile.2>
- * <tile.3>it.session.maven.tile:maven-jetty-tile:1.0-SNAPSHOT</tile.3>
+ * <tiles.1>it.session.maven.tiles:maven-compile-tiles:1.0-SNAPSHOT</tiles.1>
+ * <tiles.2>it.session.maven.tiles:maven-eclipse-tiles:1.0-SNAPSHOT</tiles.2>
+ * <tiles.3>it.session.maven.tiles:maven-jetty-tiles:1.0-SNAPSHOT</tiles.3>
  * </properties>
  * <p/>
  * Dependencies are fetched using Aether {@link RepositorySystem}
@@ -56,7 +56,7 @@ import java.util.StringTokenizer;
 public class TilesMavenLifecycleParticipant extends AbstractMavenLifecycleParticipant {
 
   protected static final String TILE_EXTENSION = "pom";
-  protected static final String TILE_PROPERTY_PREFIX = "tile.";
+  protected static final String TILE_PROPERTY_PREFIX = "tiles.";
 
   protected final MavenXpp3Reader reader = new MavenXpp3Reader();
   protected final ModelMerger modelMerger = new ModelMerger();
@@ -130,13 +130,13 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
       }
 
     } catch (FileNotFoundException e) {
-      throw new MavenExecutionException("Error loading tile " + currentTileInformation, e);
+      throw new MavenExecutionException("Error loading tiles " + currentTileInformation, e);
     } catch (XmlPullParserException e) {
-      throw new MavenExecutionException("Error building tile " + currentTileInformation, e);
+      throw new MavenExecutionException("Error building tiles " + currentTileInformation, e);
     } catch (IOException e) {
-      throw new MavenExecutionException("Error parsing tile " + currentTileInformation, e);
+      throw new MavenExecutionException("Error parsing tiles " + currentTileInformation, e);
     } catch (MojoExecutionException e) {
-      throw new MavenExecutionException("Error retrieving tile " + currentTileInformation, e);
+      throw new MavenExecutionException("Error retrieving tiles " + currentTileInformation, e);
     }
   }
 

@@ -1,4 +1,4 @@
-package it.session.maven.tile;
+package it.session.maven.tiles;
 
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
