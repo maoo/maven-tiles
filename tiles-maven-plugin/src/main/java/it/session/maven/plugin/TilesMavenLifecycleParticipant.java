@@ -69,7 +69,9 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
   @Requirement
   protected RepositorySystem repositorySystem;
 
-  //Only used for testing purposes
+  /**
+   * Only used for unit testing dependency injection
+   */
   public void setRepositorySystem(RepositorySystem repositorySystem) {
     this.repositorySystem = repositorySystem;
   }
