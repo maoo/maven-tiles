@@ -14,8 +14,9 @@
  * specific language governing permissions and limitations under the License.
  *
  **********************************************************************************************************************/
-package org.apache.maven;
+package it.session.maven.plugin;
 
+import org.apache.maven.MavenExecutionException;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
 import org.junit.Before;
@@ -30,6 +31,8 @@ import org.sonatype.aether.resolution.ArtifactResolutionException;
 import org.sonatype.aether.resolution.ArtifactResult;
 import org.sonatype.aether.util.DefaultRepositorySystemSession;
 import org.sonatype.aether.util.artifact.DefaultArtifact;
+
+import it.session.maven.plugin.TilesMavenLifecycleParticipant;
 
 import java.io.File;
 import java.io.IOException;

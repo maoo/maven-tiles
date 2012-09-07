@@ -14,8 +14,10 @@
  * specific language governing permissions and limitations under the License.
  *
  **********************************************************************************************************************/
-package org.apache.maven;
+package it.session.maven.plugin;
 
+import org.apache.maven.AbstractMavenLifecycleParticipant;
+import org.apache.maven.MavenExecutionException;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
