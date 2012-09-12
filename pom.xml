@@ -29,9 +29,9 @@
   </parent>
 
   <scm>
-    <connection>scm:git:git@github.com:maoo/maven-tiles.git</connection>
-    <url>scm:git:git@github.com:maoo/maven-tiles.git</url>
-    <developerConnection>scm:git:git@github.com:maoo/maven-tiles.git</developerConnection>
+    <connection>scm:git:git@github.com:${github_username}/maven-tiles.git</connection>
+    <url>scm:git:git@github.com:${github_username}/maven-tiles.git</url>
+    <developerConnection>scm:git:git@github.com:${github_username}/maven-tiles.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
 
