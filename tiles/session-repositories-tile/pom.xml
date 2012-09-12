@@ -22,6 +22,12 @@
   <packaging>pom</packaging>
   <name>Maven Tile - session Repositories</name>
 
+  <parent>
+    <groupId>it.session.maven</groupId>
+    <artifactId>tiles-parent</artifactId>
+    <version>0.8-SNAPSHOT</version>
+  </parent>
+
   <repositories>
     <repository>
       <id>central</id>

@@ -20,6 +20,12 @@
   <version>1.0-SNAPSHOT</version>
   <name>Maven Tile - session License</name>
 
+  <parent>
+    <groupId>it.session.maven</groupId>
+    <artifactId>tiles-parent</artifactId>
+    <version>0.8-SNAPSHOT</version>
+  </parent>
+
   <licenses>
     <license>
       <name>The Apache Software License, Version 2.0</name>

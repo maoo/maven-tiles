@@ -22,6 +22,12 @@
   <name>wicket-quickstart</name>
   <description>Wicket Quickstart to test tiles-maven-plugin</description>
 
+  <parent>
+    <groupId>it.session.maven</groupId>
+    <artifactId>examples-parent</artifactId>
+    <version>0.8-SNAPSHOT</version>
+  </parent>
+
   <modules>
     <module>runner</module>
   </modules>

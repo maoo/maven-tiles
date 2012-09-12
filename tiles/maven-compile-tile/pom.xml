@@ -20,6 +20,12 @@
   <version>1.0-SNAPSHOT</version>
   <name>Maven Tile - Maven Compile Plugin configuration</name>
 
+  <parent>
+    <groupId>it.session.maven</groupId>
+    <artifactId>tiles-parent</artifactId>
+    <version>0.8-SNAPSHOT</version>
+  </parent>
+
   <properties>
     <compile.plugin.java.version>1.6</compile.plugin.java.version>
     <compile.plugin.debug>false</compile.plugin.debug>
