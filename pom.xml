@@ -17,7 +17,7 @@
   <groupId>it.session.maven</groupId>
   <artifactId>maven-tiles-parent</artifactId>
   <packaging>pom</packaging>
-  <version>0.8-beta-3-SNAPSHOT</version>
+  <version>0.8-beta-3</version>
   <name>Maven Tiles Parent POM</name>
   <description>Maven Tiles Parent POM</description>
   <url>https://github.com/maoo/maven-tiles</url>
@@ -32,7 +32,7 @@
     <connection>scm:git:git@github.com:maoo/maven-tiles.git</connection>
     <url>scm:git:git@github.com:maoo/maven-tiles.git</url>
     <developerConnection>scm:git:git@github.com:maoo/maven-tiles.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>maven-tiles-parent-0.8-beta-3</tag>
   </scm>
 
   <licenses>
