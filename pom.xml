@@ -68,6 +68,7 @@
         <version>2.3.2</version>
         <configuration>
           <autoVersionSubmodules>true</autoVersionSubmodules>
+          <arguments>-Dgpg.keyname=${gpg.keyname} -Dgpg.passphrase=${gpg.passphrase}</arguments>
         </configuration>
       </plugin>
       <plugin>
