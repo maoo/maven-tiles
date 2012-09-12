@@ -57,7 +57,7 @@ public class TilesMavenLifecycleParticipantTest {
   RepositorySystem mockRepositorySystem;
   RepositorySystemSession defaultRepositorySystemSession;
 
-  private final static String TILE_TEST_COORDINATES = "it.session.maven.tiles:session-repositories-tile:1.0-SNAPSHOT";
+  private final static String TILE_TEST_COORDINATES = "it.session.maven.tiles:session-repositories-tile:0.8-SNAPSHOT";
   private final static String TILE_TEST_POM_PATH = "src/test/resources/licenses-tile-pom.xml";
   private final static String TILE_TEST_PROPERTY_NAME = "tiles.test";
 
