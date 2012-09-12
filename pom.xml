@@ -79,7 +79,8 @@
       <id>release-sign-artifacts</id>
       <activation>
         <property>
-          <name>release</name>
+          <name>performRelease</name>
+          <value>true</value>
         </property>
       </activation>
       <build>
