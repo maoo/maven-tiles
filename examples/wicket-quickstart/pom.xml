@@ -33,12 +33,12 @@
   </modules>
 
   <properties>
-    <tile.1>it.session.maven.tiles:maven-compile-tile:1.0-SNAPSHOT</tile.1>
-    <tile.2>it.session.maven.tiles:maven-eclipse-tile:1.0-SNAPSHOT</tile.2>
-    <tile.3>it.session.maven.tiles:maven-jetty-tile:1.0-SNAPSHOT</tile.3>
-    <tile.4>it.session.maven.tiles:maven-resources-tile:1.0-SNAPSHOT</tile.4>
-    <tile.5>it.session.maven.tiles:session-repositories-tile:1.0-SNAPSHOT</tile.5>
-    <tile.6>it.session.maven.tiles:session-license-tile:1.0-SNAPSHOT</tile.6>
+    <tile.1>it.session.maven.tiles:maven-compile-tile:0.8-SNAPSHOT</tile.1>
+    <tile.2>it.session.maven.tiles:maven-eclipse-tile:0.8-SNAPSHOT</tile.2>
+    <tile.3>it.session.maven.tiles:maven-jetty-tile:0.8-SNAPSHOT</tile.3>
+    <tile.4>it.session.maven.tiles:maven-resources-tile:0.8-SNAPSHOT</tile.4>
+    <tile.5>it.session.maven.tiles:session-repositories-tile:0.8-SNAPSHOT</tile.5>
+    <tile.6>it.session.maven.tiles:session-license-tile:0.8-SNAPSHOT</tile.6>
 
     <compile.plugin.debug>true</compile.plugin.debug>
     <eclipse.plugin.download.sources>true</eclipse.plugin.download.sources>
@@ -90,7 +90,7 @@
       <plugin>
         <groupId>it.session.maven.tiles</groupId>
         <artifactId>tiles-maven-plugin</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.8-SNAPSHOT</version>
         <extensions>true</extensions>
       </plugin>
     </plugins>

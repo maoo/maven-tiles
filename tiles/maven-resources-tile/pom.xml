@@ -17,7 +17,7 @@
   <groupId>it.session.maven.tiles</groupId>
   <artifactId>maven-resources-tile</artifactId>
   <packaging>pom</packaging>
-  <version>1.0-SNAPSHOT</version>
+  <version>0.8-SNAPSHOT</version>
   <name>Maven Tile - Maven Resourcese Plugin configuration</name>
 
   <parent>

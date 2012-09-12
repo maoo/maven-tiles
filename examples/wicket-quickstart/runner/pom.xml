@@ -26,6 +26,6 @@
     <version>0.8-SNAPSHOT</version>
   </parent>
   <properties>
-    <tile.3>it.session.maven.tiles:maven-jetty-tile:1.0-SNAPSHOT</tile.3>
+    <tile.3>it.session.maven.tiles:maven-jetty-tile:0.8-SNAPSHOT</tile.3>
   </properties>
 </project>
