@@ -43,9 +43,9 @@
   </licenses>
 
   <modules>
-    <module>tiles</module>
+<!--     <module>tiles</module>
+    <module>examples</module> -->
     <module>tiles-maven-plugin</module>
-    <module>examples</module>
   </modules>
 
   <developers>
