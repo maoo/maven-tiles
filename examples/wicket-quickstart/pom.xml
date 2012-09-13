@@ -33,14 +33,14 @@
   </modules>
 
   <properties>
-    <tile.1>it.session.maven.tiles:maven-compile-tile:0.8-SNAPSHOT</tile.1>
-    <tile.2>it.session.maven.tiles:maven-eclipse-tile:0.8-SNAPSHOT</tile.2>
-    <tile.3>it.session.maven.tiles:maven-jetty-tile:0.8-SNAPSHOT</tile.3>
-    <tile.4>it.session.maven.tiles:maven-resources-tile:0.8-SNAPSHOT</tile.4>
-    <tile.5>it.session.maven.tiles:session-repositories-tile:0.8-SNAPSHOT</tile.5>
-    <tile.6>it.session.maven.tiles:session-license-tile:0.8-SNAPSHOT</tile.6>
+    <tile.firstone>it.session.maven.tiles:maven-compile-tile:0.8-SNAPSHOT</tile.firstone>
+    <tile.1>it.session.maven.tiles:maven-eclipse-tile:0.8-SNAPSHOT</tile.1>
+    <tile.2>it.session.maven.tiles:maven-jetty-tile:0.8-SNAPSHOT</tile.2>
+    <tile.3>it.session.maven.tiles:maven-resources-tile:0.8-SNAPSHOT</tile.3>
+    <tile.4>it.session.maven.tiles:session-repositories-tile:0.8-SNAPSHOT</tile.4>
+    <tile.lastone>it.session.maven.tiles:session-license-tile:0.8-SNAPSHOT</tile.lastone>
 
-    <tiles.plugin.version>0.8-beta-3</tiles.plugin.version>
+    <maventiles.plugin.version>0.8-beta-3</maventiles.plugin.version>
     <compile.plugin.debug>true</compile.plugin.debug>
     <eclipse.plugin.download.sources>true</eclipse.plugin.download.sources>
     <jetty.plugin.version>7.3.0.v20110203</jetty.plugin.version>
@@ -91,7 +91,7 @@
       <plugin>
         <groupId>it.session.maven.plugins</groupId>
         <artifactId>tiles-maven-plugin</artifactId>
-        <version>${tiles.plugin.version}</version>
+        <version>${maventiles.plugin.version}</version>
         <extensions>true</extensions>
       </plugin>
     </plugins>

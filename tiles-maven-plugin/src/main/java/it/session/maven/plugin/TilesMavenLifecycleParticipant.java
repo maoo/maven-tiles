@@ -58,7 +58,7 @@ import java.util.StringTokenizer;
 public class TilesMavenLifecycleParticipant extends AbstractMavenLifecycleParticipant {
 
   protected static final String TILE_EXTENSION = "pom";
-  protected static final String TILE_PROPERTY_PREFIX = "tiles.";
+  protected static final String TILE_PROPERTY_PREFIX = "tile.";
 
   protected final MavenXpp3Reader reader = new MavenXpp3Reader();
   protected final ModelMerger modelMerger = new ModelMerger();
