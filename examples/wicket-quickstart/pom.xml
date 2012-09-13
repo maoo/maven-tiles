@@ -40,6 +40,7 @@
     <tile.5>it.session.maven.tiles:session-repositories-tile:0.8-SNAPSHOT</tile.5>
     <tile.6>it.session.maven.tiles:session-license-tile:0.8-SNAPSHOT</tile.6>
 
+    <tiles.plugin.version>0.8-beta-3</tiles.plugin.version>
     <compile.plugin.debug>true</compile.plugin.debug>
     <eclipse.plugin.download.sources>true</eclipse.plugin.download.sources>
     <jetty.plugin.version>7.3.0.v20110203</jetty.plugin.version>
@@ -88,9 +89,9 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>it.session.maven.tiles</groupId>
+        <groupId>it.session.maven.plugins</groupId>
         <artifactId>tiles-maven-plugin</artifactId>
-        <version>0.8-SNAPSHOT</version>
+        <version>${tiles.plugin.version}</version>
         <extensions>true</extensions>
       </plugin>
     </plugins>

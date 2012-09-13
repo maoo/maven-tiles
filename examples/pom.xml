@@ -15,14 +15,10 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>examples-parent</artifactId>
+  <groupId>it.session.maven</groupId>
   <packaging>pom</packaging>
   <name>Maven Tiles Examples Parent POM</name>
-
-  <parent>
-    <groupId>it.session.maven</groupId>
-    <artifactId>maven-tiles-parent</artifactId>
-    <version>0.8-SNAPSHOT</version>
-  </parent>
+  <version>0.8-SNAPSHOT</version>
 
   <modules>
     <module>tiles</module>
