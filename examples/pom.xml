@@ -25,6 +25,7 @@
   </parent>
 
   <modules>
+    <module>tiles</module>
     <module>wicket-quickstart</module>
   </modules>
 

@@ -5,7 +5,8 @@
 Prerequisites: Maven 3.0.2+ installed, M2_HOME/bin in your path
 
 1. mvn clean install
-2. cd examples/wicket-quickstart/runner && mvn jetty:run
+2. cd examples && mvn clean install
+3. cd wicket-quickstart/runner && mvn jetty:run
 
 ## WHAT IS MAVEN TILES
 
