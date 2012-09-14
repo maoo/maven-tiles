@@ -17,7 +17,7 @@
   <groupId>it.session.maven</groupId>
   <artifactId>maven-tiles-parent</artifactId>
   <packaging>pom</packaging>
-  <version>0.8-beta-4-SNAPSHOT</version>
+  <version>0.8-beta-6-SNAPSHOT</version>
   <name>Maven Tiles Parent POM</name>
   <description>Maven Tiles Parent POM</description>
   <url>https://github.com/maoo/maven-tiles</url>
@@ -94,6 +94,10 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
             <version>1.4</version>
+            <configuration>
+              <keyName>${gpg.keyname}</keyName>
+              <passphrase>${gpg.passphrase}</passphrase>
+            </configuration>
             <executions>
               <execution>
                 <id>sign-artifacts</id>

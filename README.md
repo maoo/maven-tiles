@@ -1,12 +1,5 @@
 # Maven Tiles
 
-## TRY IT!
-
-Prerequisites: Maven 3.0.2+ installed, M2_HOME/bin in your path
-
-1. mvn clean install
-2. cd examples/wicket-quickstart/runner && mvn jetty:run
-
 ## WHAT IS MAVEN TILES
 
 Maven Tiles is a Maven Plugin (tiles-maven-plugin) that tries to bring a new level of modularity to Maven, allowing to include multiple pom snippets into your project and overcoming the bottleneck of having the project's parent as single point of inheritance.
@@ -38,8 +31,8 @@ A great tool for supporting Maven POM development is the [maven-help-plugin](htt
 
 ## WHAT IS WORKING
 
-- Aggregate [multiple tiles in one single pom](https://github.com/maoo/maven-tiles/blob/master/examples/wicket-quickstart/pom.xml)
-- Tiles get [inherited from the POM parent](https://github.com/maoo/maven-tiles/blob/master/examples/wicket-quickstart/runner/pom.xml)
+- Aggregate [multiple tiles in one single pom](https://github.com/maoo/maven-tiles-examples/blob/master/wicket-quickstart/pom.xml)
+- Tiles get [inherited from the POM parent](https://github.com/maoo/maven-tiles-examples/blob/master/wicket-quickstart/runner/pom.xml)
 
 ## WHAT NEEDS TO BE TESTED
 

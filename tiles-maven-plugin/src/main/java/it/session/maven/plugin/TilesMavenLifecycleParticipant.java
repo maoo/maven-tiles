@@ -41,6 +41,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.StringTokenizer;
 
 /**
@@ -58,10 +59,10 @@ import java.util.StringTokenizer;
 public class TilesMavenLifecycleParticipant extends AbstractMavenLifecycleParticipant {
 
   protected static final String TILE_EXTENSION = "pom";
-  protected static final String TILE_PROPERTY_PREFIX = "tiles.";
+  protected static final String TILE_PROPERTY_PREFIX = "tile.";
 
   protected final MavenXpp3Reader reader = new MavenXpp3Reader();
-  protected final ModelMerger modelMerger = new ModelMerger();
+  protected final ModelMerger modelMerger = new TilesModelMerger();
 
   @Requirement
   protected Logger logger;
@@ -153,15 +154,27 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
   public void afterProjectsRead(MavenSession mavenSession)
       throws MavenExecutionException {
 
-    final MavenProject currentProject = mavenSession.getCurrentProject();
+    final MavenProject topLevelProject = mavenSession.getTopLevelProject();
+    List<String> subModules = topLevelProject.getModules();
 
-    if (currentProject.getBuild() != null) {
-      Enumeration propertyNames = currentProject.getProperties().propertyNames();
-      while (propertyNames.hasMoreElements()) {
-        String propertyName = (String) propertyNames.nextElement();
-        if (propertyName.startsWith(TILE_PROPERTY_PREFIX)) {
-          mergeTile(currentProject, propertyName, mavenSession.getRepositorySession());
+    if (subModules != null && subModules.size() > 0) {
+      //We're in a multi-module build, we need to trigger model merging on all sub-modules
+      for (MavenProject subModule : mavenSession.getProjects()) {
+        if (subModule != topLevelProject) {
+          mergeTiles(subModule, mavenSession);
         }
+      }
+    } else {
+      mergeTiles(topLevelProject, mavenSession);
+    }
+  }
+
+  private void mergeTiles(MavenProject currentProject, MavenSession mavenSession) throws MavenExecutionException {
+    Enumeration propertyNames = currentProject.getProperties().propertyNames();
+    while (propertyNames.hasMoreElements()) {
+      String propertyName = (String) propertyNames.nextElement();
+      if (propertyName.startsWith(TILE_PROPERTY_PREFIX)) {
+        mergeTile(currentProject, propertyName, mavenSession.getRepositorySession());
       }
     }
   }

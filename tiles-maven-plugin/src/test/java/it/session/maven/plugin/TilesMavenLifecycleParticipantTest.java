@@ -58,7 +58,7 @@ public class TilesMavenLifecycleParticipantTest {
 
   private final static String TILE_TEST_COORDINATES = "it.session.maven.tiles:session-repositories-tile:0.8-SNAPSHOT";
   private final static String TILE_TEST_POM_PATH = "src/test/resources/licenses-tile-pom.xml";
-  private final static String TILE_TEST_PROPERTY_NAME = "tiles.test";
+  private final static String TILE_TEST_PROPERTY_NAME = "tile.test";
 
   @Before
   public void setupParticipant() {
