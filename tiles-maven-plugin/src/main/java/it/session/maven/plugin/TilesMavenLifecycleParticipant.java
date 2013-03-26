@@ -54,6 +54,7 @@ import java.util.StringTokenizer;
  * <p/>
  * Dependencies are fetched using Aether {@link RepositorySystem}
  * Merging operation is delegated to {@link ModelMerger}
+ * In a multi-module project, every module inherits tiles from its parent
  */
 @Component(role = AbstractMavenLifecycleParticipant.class, hint = "TilesMavenLifecycleParticipant")
 public class TilesMavenLifecycleParticipant extends AbstractMavenLifecycleParticipant {
@@ -62,7 +63,7 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
   protected static final String TILE_PROPERTY_PREFIX = "tile.";
 
   protected final MavenXpp3Reader reader = new MavenXpp3Reader();
-  protected final ModelMerger modelMerger = new TilesModelMerger();
+  protected final TilesModelMerger modelMerger = new TilesModelMerger();
 
   @Requirement
   protected Logger logger;
@@ -131,7 +132,7 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
       //If invoked by tests, logger is null
       //@TODO properly inject logger on TilesMavenLifecycleParticipantTest.java
       if (logger != null) {
-        logger.info(String.format("Loaded Maven Tile " + currentTileInformation));
+        logger.info(String.format("The following maven Tile have been merged" + currentTileInformation));
       }
 
     } catch (FileNotFoundException e) {
@@ -153,19 +154,24 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
    */
   public void afterProjectsRead(MavenSession mavenSession)
       throws MavenExecutionException {
+    logger.info("Entering afterProjectsRead");
 
     final MavenProject topLevelProject = mavenSession.getTopLevelProject();
-    List<String> subModules = topLevelProject.getModules();
 
+    List<String> subModules = topLevelProject.getModules();
     if (subModules != null && subModules.size() > 0) {
       //We're in a multi-module build, we need to trigger model merging on all sub-modules
       for (MavenProject subModule : mavenSession.getProjects()) {
         if (subModule != topLevelProject) {
+          logger.info("Start merging for subModule "+subModule.getArtifactId());
           mergeTiles(subModule, mavenSession);
+          logger.info("All tiles merged for subModule "+subModule.getArtifactId());
         }
       }
     } else {
+      logger.info("Start merging for project "+topLevelProject.getArtifactId());
       mergeTiles(topLevelProject, mavenSession);
+      logger.info("All tiles merged for project "+topLevelProject.getArtifactId());
     }
   }
 
@@ -174,7 +180,9 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
     while (propertyNames.hasMoreElements()) {
       String propertyName = (String) propertyNames.nextElement();
       if (propertyName.startsWith(TILE_PROPERTY_PREFIX)) {
+        logger.info("Start merging of tile "+propertyName);
         mergeTile(currentProject, propertyName, mavenSession.getRepositorySession());
+        logger.info("Following tile was merged "+propertyName);
       }
     }
   }
