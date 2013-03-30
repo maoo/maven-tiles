@@ -29,7 +29,6 @@ import org.codehaus.plexus.component.annotations.Requirement;
 import org.codehaus.plexus.logging.Logger;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.sonatype.aether.RepositorySystem;
-import org.sonatype.aether.RepositorySystemSession;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -56,7 +55,7 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
 
   protected final MavenXpp3Reader reader = new MavenXpp3Reader();
   protected final TilesModelMerger modelMerger = new TilesModelMerger();
-  protected final TIlesResolver tilesResolver = new TIlesResolver();
+  protected final TilesResolver tilesResolver = new TilesResolver();
 
   @Requirement
   protected Logger logger;
@@ -76,16 +75,17 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
     while (propertyNames.hasMoreElements()) {
       String propertyName = (String) propertyNames.nextElement();
       if (propertyName.startsWith(TilesUtils.TILE_PROPERTY_PREFIX)) {
-        mergeTile(currentProject, propertyName, mavenSession.getRepositorySession());
+        mergeTile(currentProject, propertyName, mavenSession);
         logger.info("Following tile was merged "+propertyName);
       }
     }
   }
 
-  public void mergeTile(MavenProject currentProject, String propertyName, RepositorySystemSession repositorySystemSession) throws MavenExecutionException {
+  public void mergeTile(MavenProject currentProject, String propertyName, MavenSession mavenSession) throws MavenExecutionException {
     String propertyValue = currentProject.getProperties().getProperty(propertyName);
     StringTokenizer tilesTokens = TilesUtils.getTilesTokens(propertyValue);
-    String currentTileInformation = TilesUtils.getTilesKey(tilesTokens);
+    //@TODO - replace StringTokenizer with something nicer
+    String currentTileInformation = TilesUtils.getTilesKey(TilesUtils.getTilesTokens(propertyValue));
 
     try {
       File artifactFile = tilesResolver.resolveArtifact(
@@ -93,7 +93,7 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
           tilesTokens.nextToken(), //artifactId
           tilesTokens.nextToken(), //groupId
           tilesTokens.nextToken(), //version
-          repositorySystemSession,
+          mavenSession,
           repositorySystem);
 
       Model tileModel = this.reader.read(new FileInputStream(artifactFile));

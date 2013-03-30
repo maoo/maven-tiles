@@ -16,6 +16,7 @@
  **********************************************************************************************************************/
 package it.session.maven.tiles.plugin;
 
+import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
 import org.sonatype.aether.RepositorySystem;
@@ -27,8 +28,9 @@ import org.sonatype.aether.resolution.ArtifactResult;
 import org.sonatype.aether.util.artifact.DefaultArtifact;
 
 import java.io.File;
+import java.util.List;
 
-public class TIlesResolver {
+public class TilesResolver {
 
   public Artifact getArtifactFromCoordinates(String groupId, String artifactId, String version) {
     return new DefaultArtifact(groupId, artifactId, TilesUtils.TILE_EXTENSION, version);
@@ -45,16 +47,49 @@ public class TIlesResolver {
                                  String groupId,
                                  String artifactId,
                                  String version,
-                                 RepositorySystemSession repositorySystemSession,
+                                 MavenSession mavenSession,
                                  RepositorySystem repositorySystem) throws MojoExecutionException {
     try {
+      //Trying to resolve tile from project's reactor
+      File ret = null;
+      List<MavenProject> projects = mavenSession.getProjects();
+      for(MavenProject project : projects) {
+        ret = resolveArtifactInReactor(project,groupId,artifactId,version);
+        if (ret != null) {
+          //@TODO - improve here, not really stylish
+          break;
+        }
+      }
+
       Artifact tileArtifact = getArtifactFromCoordinates(groupId, artifactId, version);
       ArtifactRequest request = getArtifactRequestFromArtifact(tileArtifact, currentProject);
-      ArtifactResult result = repositorySystem.resolveArtifact(repositorySystemSession, request);
+      ArtifactResult result = repositorySystem.resolveArtifact(mavenSession.getRepositorySession(), request);
       return result.getArtifact().getFile();
     } catch (ArtifactResolutionException e) {
       throw new MojoExecutionException(String.format("Error resolving artifact %s:%s:%s", groupId, artifactId, version));
     }
+  }
+
+  private File resolveArtifactInReactor(MavenProject project, String artifactId, String groupId, String version) {
+    if (projectMatches(project,artifactId,groupId,version)) {
+      System.out.println("Resolving tile from reactor : "+TilesUtils.getTilesKey(groupId, artifactId, version));
+      return project.getFile();
+    } else {
+      if (project.getParent() != null) {
+        File ret = resolveArtifactInReactor(project.getParent(), artifactId, groupId, version);
+        if (ret != null) {
+          return ret;
+        }
+      }
+      //@TODO - check for children modules
+      return null;
+    }
+  }
+
+  private boolean projectMatches(MavenProject project, String artifactId, String groupId, String version) {
+    return project.getArtifactId().equals(artifactId) &&
+        project.getGroupId().equals(groupId) &&
+        project.getVersion().equals(version);
   }
 
 }

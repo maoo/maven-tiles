@@ -31,7 +31,10 @@ public class TilesUtils {
     String groupId = propertyTokens.nextToken();
     String artifactId = propertyTokens.nextToken();
     String version = propertyTokens.nextToken();
+    return getTilesKey(groupId, artifactId, version);
+  }
 
+  public static String getTilesKey(String groupId, String artifactId, String version) {
     return String.format("'%s:%s:%s'",
         groupId,
         artifactId,
