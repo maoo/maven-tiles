@@ -82,7 +82,7 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
     }
   }
 
-  protected void mergeTile(MavenProject currentProject, String propertyName, RepositorySystemSession repositorySystemSession) throws MavenExecutionException {
+  public void mergeTile(MavenProject currentProject, String propertyName, RepositorySystemSession repositorySystemSession) throws MavenExecutionException {
     String propertyValue = currentProject.getProperties().getProperty(propertyName);
 
     String currentTileInformation = TilesUtils.getTilesKey(propertyValue);

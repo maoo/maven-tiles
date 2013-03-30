@@ -30,18 +30,18 @@ import java.io.File;
 
 public class TIlesResolver {
 
-  protected Artifact getArtifactFromCoordinates(String groupId, String artifactId, String version) {
+  public Artifact getArtifactFromCoordinates(String groupId, String artifactId, String version) {
     return new DefaultArtifact(groupId, artifactId, TilesUtils.TILE_EXTENSION, version);
   }
 
-  protected ArtifactRequest getArtifactRequestFromArtifact(Artifact tileArtifact, MavenProject mavenProject) {
+  public ArtifactRequest getArtifactRequestFromArtifact(Artifact tileArtifact, MavenProject mavenProject) {
     ArtifactRequest request = new ArtifactRequest();
     request.setArtifact(tileArtifact);
     request.setRepositories(mavenProject.getRemoteProjectRepositories());
     return request;
   }
 
-  protected File resolveArtifact(MavenProject currentProject,
+  public File resolveArtifact(MavenProject currentProject,
                                  String groupId,
                                  String artifactId,
                                  String version,

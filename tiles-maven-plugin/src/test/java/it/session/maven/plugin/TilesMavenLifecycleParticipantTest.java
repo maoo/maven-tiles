@@ -27,6 +27,7 @@ import static org.mockito.Mockito.when;
 import java.io.File;
 import java.io.IOException;
 
+import it.session.maven.tiles.plugin.TIlesResolver;
 import it.session.maven.tiles.plugin.TilesMavenLifecycleParticipant;
 import org.apache.maven.MavenExecutionException;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -57,6 +58,8 @@ public class TilesMavenLifecycleParticipantTest {
   RepositorySystem mockRepositorySystem;
   RepositorySystemSession defaultRepositorySystemSession;
 
+  TIlesResolver tilesResolver = new TIlesResolver();
+
   private final static String TILE_TEST_COORDINATES = "it.session.maven.tiles:session-repositories-tile:0.8-SNAPSHOT";
   private final static String TILE_TEST_POM_PATH = "src/test/resources/licenses-tile-pom.xml";
   private final static String TILE_TEST_PROPERTY_NAME = "tile.test";
@@ -72,7 +75,7 @@ public class TilesMavenLifecycleParticipantTest {
 
   @Test
   public void testGetArtifactFromCoordinates() {
-    Artifact artifact = participant.getArtifactFromCoordinates("dummy", "dummy", "1");
+    Artifact artifact = tilesResolver.getArtifactFromCoordinates("dummy", "dummy", "1");
     assertNotNull(artifact);
     assertEquals(artifact.getGroupId(), "dummy");
     assertEquals(artifact.getArtifactId(), "dummy");
@@ -81,9 +84,9 @@ public class TilesMavenLifecycleParticipantTest {
 
   @Test
   public void testGetArtifactRequestFromArtifact() {
-    Artifact artifact = participant.getArtifactFromCoordinates("dummy", "dummy", "1");
+    Artifact artifact = tilesResolver.getArtifactFromCoordinates("dummy", "dummy", "1");
     MavenProject mockMavenProject = mock(MavenProject.class);
-    ArtifactRequest request = participant.getArtifactRequestFromArtifact(artifact, mockMavenProject);
+    ArtifactRequest request = tilesResolver.getArtifactRequestFromArtifact(artifact, mockMavenProject);
     assertNotNull(request);
   }
 
@@ -95,7 +98,7 @@ public class TilesMavenLifecycleParticipantTest {
 
     this.mockRepositoryWithProvidedArtifact(dummyArtifact);
 
-    File artifactFile = this.participant.resolveArtifact(emptyMavenProject, "dummy", "dummy", "1", this.defaultRepositorySystemSession);
+    File artifactFile = tilesResolver.resolveArtifact(emptyMavenProject, "dummy", "dummy", "1", this.defaultRepositorySystemSession, mockRepositorySystem);
     assertNotNull(artifactFile);
   }
 
