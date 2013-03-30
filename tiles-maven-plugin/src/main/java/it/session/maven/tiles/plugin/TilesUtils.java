@@ -27,9 +27,7 @@ public class TilesUtils {
     return new StringTokenizer(propertyValue, ":");
   }
 
-  public static String getTilesKey(String propertyValue) {
-    StringTokenizer propertyTokens = getTilesTokens(propertyValue);
-
+  public static String getTilesKey(StringTokenizer propertyTokens) {
     String groupId = propertyTokens.nextToken();
     String artifactId = propertyTokens.nextToken();
     String version = propertyTokens.nextToken();
@@ -38,5 +36,10 @@ public class TilesUtils {
         groupId,
         artifactId,
         version);
+  }
+
+  public static String getTilesKey(String propertyValue) {
+    StringTokenizer propertyTokens = getTilesTokens(propertyValue);
+  return getTilesKey(propertyTokens);
   }
 }

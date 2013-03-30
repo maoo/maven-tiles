@@ -84,9 +84,8 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
 
   public void mergeTile(MavenProject currentProject, String propertyName, RepositorySystemSession repositorySystemSession) throws MavenExecutionException {
     String propertyValue = currentProject.getProperties().getProperty(propertyName);
-
-    String currentTileInformation = TilesUtils.getTilesKey(propertyValue);
     StringTokenizer tilesTokens = TilesUtils.getTilesTokens(propertyValue);
+    String currentTileInformation = TilesUtils.getTilesKey(tilesTokens);
 
     try {
       File artifactFile = tilesResolver.resolveArtifact(
