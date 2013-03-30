@@ -14,7 +14,7 @@
  * specific language governing permissions and limitations under the License.
  *
  **********************************************************************************************************************/
-package it.session.maven.plugin;
+package it.session.maven.tiles.plugin;
 
 import org.apache.maven.AbstractMavenLifecycleParticipant;
 import org.apache.maven.MavenExecutionException;
@@ -30,11 +30,6 @@ import org.codehaus.plexus.logging.Logger;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.sonatype.aether.RepositorySystem;
 import org.sonatype.aether.RepositorySystemSession;
-import org.sonatype.aether.artifact.Artifact;
-import org.sonatype.aether.resolution.ArtifactRequest;
-import org.sonatype.aether.resolution.ArtifactResolutionException;
-import org.sonatype.aether.resolution.ArtifactResult;
-import org.sonatype.aether.util.artifact.DefaultArtifact;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -59,11 +54,9 @@ import java.util.StringTokenizer;
 @Component(role = AbstractMavenLifecycleParticipant.class, hint = "TilesMavenLifecycleParticipant")
 public class TilesMavenLifecycleParticipant extends AbstractMavenLifecycleParticipant {
 
-  protected static final String TILE_EXTENSION = "pom";
-  protected static final String TILE_PROPERTY_PREFIX = "tile.";
-
   protected final MavenXpp3Reader reader = new MavenXpp3Reader();
   protected final TilesModelMerger modelMerger = new TilesModelMerger();
+  protected final TIlesResolver tilesResolver = new TIlesResolver();
 
   @Requirement
   protected Logger logger;
@@ -78,53 +71,31 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
     this.repositorySystem = repositorySystem;
   }
 
-  protected Artifact getArtifactFromCoordinates(String groupId, String artifactId, String version) {
-    return new DefaultArtifact(groupId, artifactId, TILE_EXTENSION, version);
-  }
-
-  protected ArtifactRequest getArtifactRequestFromArtifact(Artifact tileArtifact, MavenProject mavenProject) {
-    ArtifactRequest request = new ArtifactRequest();
-    request.setArtifact(tileArtifact);
-    request.setRepositories(mavenProject.getRemoteProjectRepositories());
-    return request;
-  }
-
-  protected File resolveArtifact(MavenProject currentProject,
-                                 String groupId,
-                                 String artifactId,
-                                 String version,
-                                 RepositorySystemSession repositorySystemSession) throws MojoExecutionException {
-    try {
-      Artifact tileArtifact = getArtifactFromCoordinates(groupId, artifactId, version);
-      ArtifactRequest request = getArtifactRequestFromArtifact(tileArtifact, currentProject);
-      ArtifactResult result = this.repositorySystem.resolveArtifact(repositorySystemSession, request);
-      return result.getArtifact().getFile();
-    } catch (ArtifactResolutionException e) {
-      throw new MojoExecutionException(String.format("Error resolving artifact %s:%s:%s", groupId, artifactId, version));
+  protected  void mergeTiles(MavenProject currentProject, MavenSession mavenSession) throws MavenExecutionException {
+    Enumeration propertyNames = currentProject.getProperties().propertyNames();
+    while (propertyNames.hasMoreElements()) {
+      String propertyName = (String) propertyNames.nextElement();
+      if (propertyName.startsWith(TilesUtils.TILE_PROPERTY_PREFIX)) {
+        mergeTile(currentProject, propertyName, mavenSession.getRepositorySession());
+        logger.info("Following tile was merged "+propertyName);
+      }
     }
   }
 
   protected void mergeTile(MavenProject currentProject, String propertyName, RepositorySystemSession repositorySystemSession) throws MavenExecutionException {
     String propertyValue = currentProject.getProperties().getProperty(propertyName);
-    StringTokenizer propertyTokens = new StringTokenizer(propertyValue, ":");
 
-    String groupId = propertyTokens.nextToken();
-    String artifactId = propertyTokens.nextToken();
-    String version = propertyTokens.nextToken();
-
-    String currentTileInformation =
-        String.format("'%s:%s:%s'",
-            groupId,
-            artifactId,
-            version);
+    String currentTileInformation = TilesUtils.getTilesKey(propertyValue);
+    StringTokenizer tilesTokens = TilesUtils.getTilesTokens(propertyValue);
 
     try {
-      File artifactFile = this.resolveArtifact(
+      File artifactFile = tilesResolver.resolveArtifact(
           currentProject,
-          groupId,
-          artifactId,
-          version,
-          repositorySystemSession);
+          tilesTokens.nextToken(), //artifactId
+          tilesTokens.nextToken(), //groupId
+          tilesTokens.nextToken(), //version
+          repositorySystemSession,
+          repositorySystem);
 
       Model tileModel = this.reader.read(new FileInputStream(artifactFile));
       this.modelMerger.merge(currentProject.getModel(), tileModel, false, null);
@@ -154,7 +125,6 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
    */
   public void afterProjectsRead(MavenSession mavenSession)
       throws MavenExecutionException {
-    logger.info("Entering afterProjectsRead");
 
     final MavenProject topLevelProject = mavenSession.getTopLevelProject();
 
@@ -163,27 +133,13 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
       //We're in a multi-module build, we need to trigger model merging on all sub-modules
       for (MavenProject subModule : mavenSession.getProjects()) {
         if (subModule != topLevelProject) {
-          logger.info("Start merging for subModule "+subModule.getArtifactId());
           mergeTiles(subModule, mavenSession);
           logger.info("All tiles merged for subModule "+subModule.getArtifactId());
         }
       }
     } else {
-      logger.info("Start merging for project "+topLevelProject.getArtifactId());
       mergeTiles(topLevelProject, mavenSession);
       logger.info("All tiles merged for project "+topLevelProject.getArtifactId());
-    }
-  }
-
-  private void mergeTiles(MavenProject currentProject, MavenSession mavenSession) throws MavenExecutionException {
-    Enumeration propertyNames = currentProject.getProperties().propertyNames();
-    while (propertyNames.hasMoreElements()) {
-      String propertyName = (String) propertyNames.nextElement();
-      if (propertyName.startsWith(TILE_PROPERTY_PREFIX)) {
-        logger.info("Start merging of tile "+propertyName);
-        mergeTile(currentProject, propertyName, mavenSession.getRepositorySession());
-        logger.info("Following tile was merged "+propertyName);
-      }
     }
   }
 

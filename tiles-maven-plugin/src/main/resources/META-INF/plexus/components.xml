@@ -17,7 +17,7 @@
     <component>
       <role>org.apache.maven.AbstractMavenLifecycleParticipant</role>
       <role-hint>TilesMavenLifecycleParticipant</role-hint>
-      <implementation>it.session.maven.plugin.TilesMavenLifecycleParticipant</implementation>
+      <implementation>it.session.maven.tiles.plugin.TilesMavenLifecycleParticipant</implementation>
       <isolated-realm>false</isolated-realm>
       <requirements>
         <requirement>
