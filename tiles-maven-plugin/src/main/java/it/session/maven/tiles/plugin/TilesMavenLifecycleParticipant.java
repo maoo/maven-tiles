@@ -20,6 +20,7 @@ import org.apache.maven.AbstractMavenLifecycleParticipant;
 import org.apache.maven.MavenExecutionException;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.model.Model;
+import org.apache.maven.model.interpolation.ModelInterpolator;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.apache.maven.model.merge.ModelMerger;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -56,6 +57,9 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
   protected final MavenXpp3Reader reader = new MavenXpp3Reader();
   protected final TilesModelMerger modelMerger = new TilesModelMerger();
   protected final TilesResolver tilesResolver = new TilesResolver();
+
+  @Requirement
+  protected ModelInterpolator modelInterpolator;
 
   @Requirement
   protected Logger logger;
@@ -96,8 +100,10 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
           mavenSession,
           repositorySystem);
 
+      logger.info("Model Interpolator: "+modelInterpolator.getClass());
+
       Model tileModel = this.reader.read(new FileInputStream(artifactFile));
-      this.modelMerger.merge(currentProject.getModel(), tileModel, false, null);
+      this.modelMerger.merge(currentProject.getModel(), tileModel, false, null, modelInterpolator);
 
       //If invoked by tests, logger is null
       //@TODO properly inject logger on TilesMavenLifecycleParticipantTest.java
