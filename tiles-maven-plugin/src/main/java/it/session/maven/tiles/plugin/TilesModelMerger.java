@@ -37,20 +37,6 @@ import java.util.Properties;
  */
 public class TilesModelMerger extends ModelMerger {
 
-  private void interpolateDependencies(List<Dependency> dependencies, Properties properties) {
-    for(Dependency dependency : dependencies) {
-      String artifactId = dependency.getArtifactId();
-      artifactId = interpolateString(artifactId, properties);
-      dependency.setArtifactId(artifactId);
-      String groupId = dependency.getGroupId();
-      groupId = interpolateString(groupId, properties);
-      dependency.setGroupId(groupId);
-      String version = dependency.getVersion();
-      version = interpolateString(version, properties);
-      dependency.setVersion(version);
-    }
-  }
-
   private ModelBuildingRequest createModelBuildingRequest( Properties p )
   {
     ModelBuildingRequest config = new DefaultModelBuildingRequest();
@@ -76,73 +62,5 @@ public class TilesModelMerger extends ModelMerger {
     ModelBuildingRequest mbr = createModelBuildingRequest(props);
     SimpleProblemCollector collector = new SimpleProblemCollector();
     modelInterpolator.interpolateModel(target, target.getProjectDirectory(), mbr, collector);
-  }
-
-  private void interpolateBuild(BuildBase build, Properties properties) {
-    if (build != null) {
-
-      //Interpolate *plugin management*, if present
-      PluginManagement pluginManagement = build.getPluginManagement();
-      if (pluginManagement != null) {
-        List<Plugin> plugins = pluginManagement.getPlugins();
-        if (plugins != null) {
-          for(Plugin sourcePlugin : plugins) {
-            interpolatePlugin(properties, sourcePlugin);
-          }
-        }
-      }
-
-      //Interpolate *build plugins*, if present
-      List<Plugin> plugins = build.getPlugins();
-      if (plugins != null) {
-        for(Plugin sourcePlugin : plugins) {
-          interpolatePlugin(properties, sourcePlugin);
-        }
-      }
-
-      List<Resource> resources = build.getResources();
-      if (resources != null) {
-        interpolateResources(resources,properties);
-      }
-    }
-  }
-
-  private void interpolateResources(List<Resource> resources, Properties properties) {
-    for(Resource resource : resources) {
-      interpolateResource(resource, properties);
-    }
-  }
-
-  private void interpolateResource(Resource resource, Properties properties) {
-    String directory = resource.getDirectory();
-    directory = interpolateString(directory, properties);
-    resource.setDirectory(directory);
-    String filtering = resource.getFiltering();
-    filtering = interpolateString(filtering, properties);
-    resource.setFiltering(filtering);
-    String targetPath = resource.getTargetPath();
-    targetPath = interpolateString(targetPath, properties);
-    resource.setTargetPath(targetPath);
-  }
-
-  private void interpolatePlugin(Properties properties, Plugin sourcePlugin) {
-    String version = sourcePlugin.getVersion();
-    version = interpolateString(version, properties);
-    sourcePlugin.setVersion(version);
-    interpolateDependencies(sourcePlugin.getDependencies(), properties);
-  }
-
-  private String interpolateString(String string, Properties properties) {
-    if (StringUtils.isEmpty(string)) {
-      return string;
-    }
-    String ret = StringUtils.interpolate(string,properties);
-    if (string.equals(ret)) {
-      System.out.println("Interpolated string "+string+" : "+ret);
-      System.out.println(properties);
-      return ret;
-    } else {
-      return interpolateString(ret,properties);
-    }
   }
 }
