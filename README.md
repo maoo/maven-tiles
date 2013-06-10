@@ -36,6 +36,7 @@ A great tool for supporting Maven POM development is the [maven-help-plugin](htt
 ## ROADMAP
 
 0.9.0 - Add verbose mode to run maven-tiles plugin
+0.9.0 - Property interpolation results should be printed; if errors occur, execution should be aborted (see TilesModelMerger.java)
 0.9.1 - Test Coverage
 1.0 - Plugin Activation
 1.0 - [Alfresco SDK tiles](https://github.com/maoo/maven-tiles-examples/tree/alfresco) released
