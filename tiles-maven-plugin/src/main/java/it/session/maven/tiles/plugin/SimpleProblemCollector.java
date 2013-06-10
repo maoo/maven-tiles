@@ -18,12 +18,12 @@
  */
 package it.session.maven.tiles.plugin;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.maven.model.InputLocation;
 import org.apache.maven.model.building.ModelProblem.Severity;
 import org.apache.maven.model.building.ModelProblemCollector;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple model problem collector for testing the model building components.
@@ -31,8 +31,7 @@ import org.apache.maven.model.building.ModelProblemCollector;
  * @author Benjamin Bentmann
  */
 public class SimpleProblemCollector
-    implements ModelProblemCollector
-{
+    implements ModelProblemCollector {
 
   private List<String> warnings = new ArrayList<String>();
 
@@ -40,36 +39,29 @@ public class SimpleProblemCollector
 
   private List<String> fatals = new ArrayList<String>();
 
-  public List<String> getWarnings()
-  {
+  public List<String> getWarnings() {
     return warnings;
   }
 
-  public List<String> getErrors()
-  {
+  public List<String> getErrors() {
     return errors;
   }
 
-  public List<String> getFatals()
-  {
+  public List<String> getFatals() {
     return fatals;
   }
 
-  public void add( Severity severity, String message, InputLocation location, Exception cause )
-  {
-    switch ( severity )
-    {
+  public void add(Severity severity, String message, InputLocation location, Exception cause) {
+    switch (severity) {
       case FATAL:
-        fatals.add( message );
+        fatals.add(message);
         break;
       case ERROR:
-        errors.add( message );
+        errors.add(message);
         break;
       case WARNING:
-        warnings.add( message );
+        warnings.add(message);
         break;
     }
-
   }
-
 }

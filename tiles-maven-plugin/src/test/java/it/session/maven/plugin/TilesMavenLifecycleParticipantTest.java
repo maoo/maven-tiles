@@ -16,19 +16,8 @@
  **********************************************************************************************************************/
 package it.session.maven.plugin;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.argThat;
-import static org.mockito.Matchers.same;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.io.File;
-import java.io.IOException;
-
-import it.session.maven.tiles.plugin.TilesResolver;
 import it.session.maven.tiles.plugin.TilesMavenLifecycleParticipant;
+import it.session.maven.tiles.plugin.TilesResolver;
 import org.apache.maven.MavenExecutionException;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
@@ -45,6 +34,15 @@ import org.sonatype.aether.resolution.ArtifactResolutionException;
 import org.sonatype.aether.resolution.ArtifactResult;
 import org.sonatype.aether.util.DefaultRepositorySystemSession;
 import org.sonatype.aether.util.artifact.DefaultArtifact;
+
+import java.io.File;
+import java.io.IOException;
+
+import static org.junit.Assert.*;
+import static org.mockito.Matchers.argThat;
+import static org.mockito.Matchers.same;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * If testMergeTile fails with java.io.FileNotFoundException: src/test/resources/licenses-tiles-pom.xml
@@ -105,7 +103,7 @@ public class TilesMavenLifecycleParticipantTest {
   @Test
   public void testMergeTile() throws MavenExecutionException, IOException, ArtifactResolutionException {
     MavenProject mavenProject = new MavenProject();
-    mavenProject.getProperties().setProperty(TILE_TEST_PROPERTY_NAME,TILE_TEST_COORDINATES);
+    mavenProject.getProperties().setProperty(TILE_TEST_PROPERTY_NAME, TILE_TEST_COORDINATES);
 
     DefaultArtifact dummyArtifact = new DefaultArtifact(TILE_TEST_COORDINATES);
 
@@ -116,34 +114,34 @@ public class TilesMavenLifecycleParticipantTest {
 //    assertTrue(mavenProject.getLicenses().size() != 0);
   }
 
-	private void mockRepositoryWithProvidedArtifact(Artifact artifact)
-			throws ArtifactResolutionException {
-		ArtifactResult expectedResult = new ArtifactResult(new ArtifactRequest());
-		expectedResult.setArtifact(artifact.setFile(new File(TILE_TEST_POM_PATH)));
+  private void mockRepositoryWithProvidedArtifact(Artifact artifact)
+      throws ArtifactResolutionException {
+    ArtifactResult expectedResult = new ArtifactResult(new ArtifactRequest());
+    expectedResult.setArtifact(artifact.setFile(new File(TILE_TEST_POM_PATH)));
 
-		when(
-			this.mockRepositorySystem.resolveArtifact(
-				same(defaultRepositorySystemSession),
-				argThat(new MatchesArtifact(artifact))))
-			.thenReturn(expectedResult);
-	}
-  
-	class MatchesArtifact extends ArgumentMatcher<ArtifactRequest> {
+    when(
+        this.mockRepositorySystem.resolveArtifact(
+            same(defaultRepositorySystemSession),
+            argThat(new MatchesArtifact(artifact))))
+        .thenReturn(expectedResult);
+  }
 
-		private Artifact myArtifact;
-		
-		public MatchesArtifact(Artifact myArtifact) {
-			this.myArtifact = myArtifact;
-		}
+  class MatchesArtifact extends ArgumentMatcher<ArtifactRequest> {
 
-		@Override
-		public boolean matches(Object oRequest) {
-			ArtifactRequest artifactRequest = (ArtifactRequest) oRequest;
-			Artifact theirArtifact = artifactRequest.getArtifact();
-			return myArtifact.getGroupId().equals(theirArtifact.getGroupId()) && 
-					myArtifact.getArtifactId().equals(theirArtifact.getArtifactId()) && 
-					myArtifact.getVersion().equals(theirArtifact.getVersion());
-		}
+    private Artifact myArtifact;
 
-	}
+    public MatchesArtifact(Artifact myArtifact) {
+      this.myArtifact = myArtifact;
+    }
+
+    @Override
+    public boolean matches(Object oRequest) {
+      ArtifactRequest artifactRequest = (ArtifactRequest) oRequest;
+      Artifact theirArtifact = artifactRequest.getArtifact();
+      return myArtifact.getGroupId().equals(theirArtifact.getGroupId()) &&
+          myArtifact.getArtifactId().equals(theirArtifact.getArtifactId()) &&
+          myArtifact.getVersion().equals(theirArtifact.getVersion());
+    }
+
+  }
 }

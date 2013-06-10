@@ -16,6 +16,8 @@
  **********************************************************************************************************************/
 package it.session.maven.tiles.plugin;
 
+import org.apache.maven.project.MavenProject;
+
 import java.util.StringTokenizer;
 
 public class TilesUtils {
@@ -34,6 +36,13 @@ public class TilesUtils {
     return getTilesKey(groupId, artifactId, version);
   }
 
+  public static String getTilesKey(MavenProject mavenProject) {
+    return String.format("'%s:%s:%s'",
+        mavenProject.getGroupId(),
+        mavenProject.getArtifactId(),
+        mavenProject.getVersion());
+  }
+
   public static String getTilesKey(String groupId, String artifactId, String version) {
     return String.format("'%s:%s:%s'",
         groupId,
@@ -43,6 +52,6 @@ public class TilesUtils {
 
   public static String getTilesKey(String propertyValue) {
     StringTokenizer propertyTokens = getTilesTokens(propertyValue);
-  return getTilesKey(propertyTokens);
+    return getTilesKey(propertyTokens);
   }
 }

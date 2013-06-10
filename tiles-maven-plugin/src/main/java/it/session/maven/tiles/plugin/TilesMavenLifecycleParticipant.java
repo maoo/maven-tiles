@@ -67,6 +67,10 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
   @Requirement
   protected RepositorySystem repositorySystem;
 
+  //@Requirement
+  //private ModelBuilder modelBuilder;
+
+
   /**
    * Only used for unit testing dependency injection
    */
@@ -74,22 +78,23 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
     this.repositorySystem = repositorySystem;
   }
 
-  protected  void mergeTiles(MavenProject currentProject, MavenSession mavenSession) throws MavenExecutionException {
+  protected void mergeTiles(MavenProject currentProject, MavenSession mavenSession) throws MavenExecutionException {
     Enumeration propertyNames = currentProject.getProperties().propertyNames();
     while (propertyNames.hasMoreElements()) {
       String propertyName = (String) propertyNames.nextElement();
       if (propertyName.startsWith(TilesUtils.TILE_PROPERTY_PREFIX)) {
         mergeTile(currentProject, propertyName, mavenSession);
-        logger.info("Following tile was merged "+propertyName);
+        logger.info("Following tile was merged " + propertyName);
       }
     }
   }
 
-  public void mergeTile(MavenProject currentProject, String propertyName, MavenSession mavenSession) throws MavenExecutionException {
+  protected void mergeTile(MavenProject currentProject, String propertyName, MavenSession mavenSession) throws MavenExecutionException {
     String propertyValue = currentProject.getProperties().getProperty(propertyName);
     StringTokenizer tilesTokens = TilesUtils.getTilesTokens(propertyValue);
     //@TODO - replace StringTokenizer with something nicer
     String currentTileInformation = TilesUtils.getTilesKey(TilesUtils.getTilesTokens(propertyValue));
+    String currentPomInformation = TilesUtils.getTilesKey(currentProject);
 
     try {
       File artifactFile = tilesResolver.resolveArtifact(
@@ -100,9 +105,12 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
           mavenSession,
           repositorySystem);
 
-      logger.info("Model Interpolator: "+modelInterpolator.getClass());
-
       Model tileModel = this.reader.read(new FileInputStream(artifactFile));
+
+      //@TODO - work in progess, not working yet
+      mergeProfiles();
+
+      //Merge the tile definition with the current MavenProject
       this.modelMerger.merge(currentProject.getModel(), tileModel, false, null, modelInterpolator);
 
       //If invoked by tests, logger is null
@@ -139,13 +147,39 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
       for (MavenProject subModule : mavenSession.getProjects()) {
         if (subModule != topLevelProject) {
           mergeTiles(subModule, mavenSession);
-          logger.info("All tiles merged for subModule "+subModule.getArtifactId());
+          logger.info("All tiles merged for subModule " + subModule.getArtifactId());
         }
       }
     } else {
       mergeTiles(topLevelProject, mavenSession);
-      logger.info("All tiles merged for project "+topLevelProject.getArtifactId());
+      logger.info("All tiles merged for project " + topLevelProject.getArtifactId());
     }
+  }
+
+  private void mergeProfiles() {
+    //      logger.info("Before Model injected profiles: "+currentProject.getInjectedProfileIds());
+    //      logger.info("Before Model active profiles: "+currentProject.getActiveProfiles());
+
+    //      logger.info("POM info: "+currentPomInformation);
+
+    //Add profiles to the current list of injected ones
+    //      List<String> tileProfileIds = new ArrayList<String>();
+    //      for (Profile p : tileModel.getProfiles()) {
+    //        mavenSession.getProjectBuildingRequest().addProfile(p);
+    //        tileProfileIds.add(p.getId());
+    //        logger.info("Adding tile profile: "+p.getId());
+    //
+    //      }
+
+    //      List<String> activeProfiles = currentProject.getInjectedProfileIds().get("external");
+    //      if (tileProfileIds != null) {
+    //        activeProfiles.addAll(tileProfileIds);
+    //      }
+
+    //      logger.info("Model injected profiles: "+currentProject.getInjectedProfileIds());
+    //      logger.info("Model active profiles: "+currentProject.getActiveProfiles());
+
+    //      currentProject.setInjectedProfileIds("external",tileProfileIds);	
   }
 
 }

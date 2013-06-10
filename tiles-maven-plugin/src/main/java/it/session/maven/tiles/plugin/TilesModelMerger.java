@@ -16,15 +16,13 @@
  **********************************************************************************************************************/
 package it.session.maven.tiles.plugin;
 
-import org.apache.maven.model.*;
+import org.apache.maven.model.Model;
 import org.apache.maven.model.building.DefaultModelBuildingRequest;
 import org.apache.maven.model.building.ModelBuildingRequest;
 import org.apache.maven.model.interpolation.ModelInterpolator;
 import org.apache.maven.model.merge.ModelMerger;
-import org.codehaus.plexus.util.StringUtils;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -37,19 +35,17 @@ import java.util.Properties;
  */
 public class TilesModelMerger extends ModelMerger {
 
-  private ModelBuildingRequest createModelBuildingRequest( Properties p )
-  {
+  private ModelBuildingRequest createModelBuildingRequest(Properties p) {
     ModelBuildingRequest config = new DefaultModelBuildingRequest();
-    config.setSystemProperties( p );
+    config.setSystemProperties(p);
     return config;
   }
 
   public void merge(Model target, Model source, boolean sourceDominant, Map<?, ?> hints, ModelInterpolator modelInterpolator) {
 
     Map<Object, Object> context = new HashMap<Object, Object>();
-    if ( hints != null )
-    {
-      context.putAll( hints );
+    if (hints != null) {
+      context.putAll(hints);
     }
 
     //Now we can merge the source tile with the target model
@@ -60,7 +56,10 @@ public class TilesModelMerger extends ModelMerger {
     props.putAll(source.getProperties());
     props.putAll(target.getProperties());
     ModelBuildingRequest mbr = createModelBuildingRequest(props);
+
     SimpleProblemCollector collector = new SimpleProblemCollector();
     modelInterpolator.interpolateModel(target, target.getProjectDirectory(), mbr, collector);
+
+    //@TODO - print out errors warnings and fatals as output
   }
 }

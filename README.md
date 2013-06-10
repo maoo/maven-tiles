@@ -9,6 +9,10 @@ Read more:
 - http://stackoverflow.com/questions/11749375/import-maven-plugin-configuration-by-composition-rather-than-inheritance-can-it
 - http://maven.40175.n5.nabble.com/Moving-forward-with-mixins-tc4421069.html
 
+From version 0.9, Maven Tiles supports some additional features:
+- Tiles resolution in project reactor: you can define your build tiles as modules of your (multi-module) Maven build
+- Property interpolation: tiles can make use of properties that are declared in the pom aggregator, making tiles parametric
+
 ## WHAT IS A MAVEN TILE
 
 Tiles are [plain Maven pom artifacts](https://github.com/maoo/maven-tiles/tree/master/examples/tiles) which contain parts of a Maven POM; every tile can contain
@@ -29,19 +33,10 @@ Sometime tiles can be counter-productive to use; for example the maven-resources
 
 A great tool for supporting Maven POM development is the [maven-help-plugin](http://maven.apache.org/plugins/maven-help-plugin); before running a tile-aggregated build, just launch [mvn help:effective-pom](http://maven.apache.org/plugins/maven-help-plugin/effective-pom-mojo.html) and analyse the final POM file that gets executed
 
-## WHAT IS WORKING
+## ROADMAP
 
-- Aggregate [multiple tiles in one single pom](https://github.com/maoo/maven-tiles-examples/blob/master/wicket-quickstart/pom.xml)
-- Tiles get [inherited from the POM parent](https://github.com/maoo/maven-tiles-examples/blob/master/wicket-quickstart/runner/pom.xml)
-
-## WHAT NEEDS TO BE TESTED
-
-- Maven properties defined within a tile should be visible from others
-- What happens when 2 tiles define the same configuration?
-- What happens when 2 tiles define 2 different executions of the same plugin?
-
-
-## CURRENT ISSUES
-
-- Plugin versions cannot be parametrized(!) - see maven-eclipse-tile
-- Test Coverage
+0.9.0 - Add verbose mode to run maven-tiles plugin
+0.9.1 - Test Coverage
+1.0 - Plugin Activation
+1.0 - [Alfresco SDK tiles](https://github.com/maoo/maven-tiles-examples/tree/alfresco) released
+1.0 - Other 2 maven-tiles success stories
