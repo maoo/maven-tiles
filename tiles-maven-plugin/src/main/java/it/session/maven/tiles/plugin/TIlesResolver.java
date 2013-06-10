@@ -19,8 +19,8 @@ package it.session.maven.tiles.plugin;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
+import org.codehaus.plexus.logging.Logger;
 import org.sonatype.aether.RepositorySystem;
-import org.sonatype.aether.RepositorySystemSession;
 import org.sonatype.aether.artifact.Artifact;
 import org.sonatype.aether.resolution.ArtifactRequest;
 import org.sonatype.aether.resolution.ArtifactResolutionException;
@@ -31,6 +31,8 @@ import java.io.File;
 import java.util.List;
 
 public class TilesResolver {
+
+  private Logger logger;
 
   public Artifact getArtifactFromCoordinates(String groupId, String artifactId, String version) {
     return new DefaultArtifact(groupId, artifactId, TilesUtils.TILE_EXTENSION, version);
@@ -44,17 +46,17 @@ public class TilesResolver {
   }
 
   public File resolveArtifact(MavenProject currentProject,
-                                 String groupId,
-                                 String artifactId,
-                                 String version,
-                                 MavenSession mavenSession,
-                                 RepositorySystem repositorySystem) throws MojoExecutionException {
+                              String groupId,
+                              String artifactId,
+                              String version,
+                              MavenSession mavenSession,
+                              RepositorySystem repositorySystem) throws MojoExecutionException {
     try {
       //Trying to resolve tile from project's reactor
       File ret = null;
       List<MavenProject> projects = mavenSession.getProjects();
-      for(MavenProject project : projects) {
-        ret = resolveArtifactInReactor(project,groupId,artifactId,version);
+      for (MavenProject project : projects) {
+        ret = resolveArtifactInReactor(project, groupId, artifactId, version);
         if (ret != null) {
           //@TODO - improve here, not really stylish
           break;
@@ -71,8 +73,8 @@ public class TilesResolver {
   }
 
   private File resolveArtifactInReactor(MavenProject project, String artifactId, String groupId, String version) {
-    if (projectMatches(project,artifactId,groupId,version)) {
-      System.out.println("Resolving tile from reactor : "+TilesUtils.getTilesKey(groupId, artifactId, version));
+    if (projectMatches(project, artifactId, groupId, version)) {
+      //System.out.println("Resolving tile from reactor : " + TilesUtils.getTilesKey(groupId, artifactId, version));
       return project.getFile();
     } else {
       if (project.getParent() != null) {
@@ -92,4 +94,7 @@ public class TilesResolver {
         project.getVersion().equals(version);
   }
 
+  public void setLogger(Logger logger) {
+    this.logger = logger;
+  }
 }

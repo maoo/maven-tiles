@@ -67,9 +67,9 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
   @Requirement
   protected RepositorySystem repositorySystem;
 
+  //Used for profile merging
   //@Requirement
   //private ModelBuilder modelBuilder;
-
 
   /**
    * Only used for unit testing dependency injection
@@ -78,23 +78,25 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
     this.repositorySystem = repositorySystem;
   }
 
-  protected void mergeTiles(MavenProject currentProject, MavenSession mavenSession) throws MavenExecutionException {
+
+  protected int mergeTiles(MavenProject currentProject, MavenSession mavenSession) throws MavenExecutionException {
     Enumeration propertyNames = currentProject.getProperties().propertyNames();
+    int tilesProcessed = 0;
     while (propertyNames.hasMoreElements()) {
       String propertyName = (String) propertyNames.nextElement();
       if (propertyName.startsWith(TilesUtils.TILE_PROPERTY_PREFIX)) {
         mergeTile(currentProject, propertyName, mavenSession);
-        logger.info("Following tile was merged " + propertyName);
+        tilesProcessed++;
+        logger.debug("Following tile was merged " + propertyName);
       }
     }
+    return tilesProcessed;
   }
 
   protected void mergeTile(MavenProject currentProject, String propertyName, MavenSession mavenSession) throws MavenExecutionException {
     String propertyValue = currentProject.getProperties().getProperty(propertyName);
     StringTokenizer tilesTokens = TilesUtils.getTilesTokens(propertyValue);
-    //@TODO - replace StringTokenizer with something nicer
     String currentTileInformation = TilesUtils.getTilesKey(TilesUtils.getTilesTokens(propertyValue));
-    String currentPomInformation = TilesUtils.getTilesKey(currentProject);
 
     try {
       File artifactFile = tilesResolver.resolveArtifact(
@@ -116,7 +118,7 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
       //If invoked by tests, logger is null
       //@TODO properly inject logger on TilesMavenLifecycleParticipantTest.java
       if (logger != null) {
-        logger.info(String.format("The following maven Tile have been merged" + currentTileInformation));
+        logger.debug(String.format("The following maven Tile have been merged" + currentTileInformation));
       }
 
     } catch (FileNotFoundException e) {
@@ -139,6 +141,8 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
   public void afterProjectsRead(MavenSession mavenSession)
       throws MavenExecutionException {
 
+    init();
+
     final MavenProject topLevelProject = mavenSession.getTopLevelProject();
 
     List<String> subModules = topLevelProject.getModules();
@@ -146,14 +150,24 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
       //We're in a multi-module build, we need to trigger model merging on all sub-modules
       for (MavenProject subModule : mavenSession.getProjects()) {
         if (subModule != topLevelProject) {
-          mergeTiles(subModule, mavenSession);
-          logger.info("All tiles merged for subModule " + subModule.getArtifactId());
+          int tilesProcessed = mergeTiles(subModule, mavenSession);
+          if (tilesProcessed > 0) {
+            logger.info("Tiles merged for module " + subModule.getArtifactId() + " - " + tilesProcessed);
+          }
         }
       }
     } else {
-      mergeTiles(topLevelProject, mavenSession);
-      logger.info("All tiles merged for project " + topLevelProject.getArtifactId());
+      int tilesProcessed = mergeTiles(topLevelProject, mavenSession);
+      if (tilesProcessed > 0) {
+        logger.info("Tiles merged for module " + topLevelProject.getArtifactId() + " - " + tilesProcessed);
+      }
+
     }
+  }
+
+  private void init() {
+    this.modelMerger.setLogger(this.logger);
+    this.tilesResolver.setLogger(this.logger);
   }
 
   private void mergeProfiles() {

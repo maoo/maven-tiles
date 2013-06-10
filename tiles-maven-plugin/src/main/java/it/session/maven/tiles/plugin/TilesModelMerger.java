@@ -21,8 +21,10 @@ import org.apache.maven.model.building.DefaultModelBuildingRequest;
 import org.apache.maven.model.building.ModelBuildingRequest;
 import org.apache.maven.model.interpolation.ModelInterpolator;
 import org.apache.maven.model.merge.ModelMerger;
+import org.codehaus.plexus.logging.Logger;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -34,6 +36,8 @@ import java.util.Properties;
  * profiles)
  */
 public class TilesModelMerger extends ModelMerger {
+
+  private Logger logger;
 
   private ModelBuildingRequest createModelBuildingRequest(Properties p) {
     ModelBuildingRequest config = new DefaultModelBuildingRequest();
@@ -60,6 +64,28 @@ public class TilesModelMerger extends ModelMerger {
     SimpleProblemCollector collector = new SimpleProblemCollector();
     modelInterpolator.interpolateModel(target, target.getProjectDirectory(), mbr, collector);
 
-    //@TODO - print out errors warnings and fatals as output
+    logger.debug("Merging tile " + source.getArtifactId() + " with POM " + target.getArtifactId());
+    printMessages("[Tile Merging] Fatal Error: ", collector.getFatals(), Logger.LEVEL_FATAL);
+    printMessages("[Tile Merging] Error: ", collector.getErrors(), Logger.LEVEL_ERROR);
+    printMessages("[Tile Merging] Warning: ", collector.getWarnings(), Logger.LEVEL_WARN);
+  }
+
+  private void printMessages(String messageTitle, List<String> messages, int level) {
+    if (messages.size() > 0) {
+      for (String message : messages) {
+        switch (level) {
+          case Logger.LEVEL_FATAL:
+            logger.fatalError(messageTitle + message);
+          case Logger.LEVEL_ERROR:
+            logger.error(messageTitle + message);
+          case Logger.LEVEL_WARN:
+            logger.warn(messageTitle + message);
+        }
+      }
+    }
+  }
+
+  public void setLogger(Logger logger) {
+    this.logger = logger;
   }
 }

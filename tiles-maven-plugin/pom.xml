@@ -18,6 +18,7 @@
   <groupId>it.session.maven.plugins</groupId>
   <artifactId>tiles-maven-plugin</artifactId>
   <name>Maven Tiles Plugin</name>
+  <packaging>maven-plugin</packaging>
 
   <parent>
     <groupId>it.session.maven</groupId>
@@ -48,6 +49,7 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
   <build>
     <plugins>
       <plugin>
@@ -61,6 +63,15 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <!-- @TODO - plugin.xml not generated yet -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-plugin-plugin</artifactId>
+        <version>3.2</version>
+        <configuration>
+          <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
+        </configuration>
       </plugin>
     </plugins>
   </build>
