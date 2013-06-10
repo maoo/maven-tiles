@@ -58,8 +58,7 @@ public class TilesResolver {
       for (MavenProject project : projects) {
         ret = resolveArtifactInReactor(project, groupId, artifactId, version);
         if (ret != null) {
-          //@TODO - improve here, not really stylish
-          break;
+          return ret;
         }
       }
 
@@ -74,7 +73,7 @@ public class TilesResolver {
 
   private File resolveArtifactInReactor(MavenProject project, String artifactId, String groupId, String version) {
     if (projectMatches(project, artifactId, groupId, version)) {
-      //System.out.println("Resolving tile from reactor : " + TilesUtils.getTilesKey(groupId, artifactId, version));
+      logger.debug("Resolving tile from reactor : " + TilesUtils.getTilesKey(groupId, artifactId, version));
       return project.getFile();
     } else {
       if (project.getParent() != null) {
@@ -83,7 +82,6 @@ public class TilesResolver {
           return ret;
         }
       }
-      //@TODO - check for children modules
       return null;
     }
   }

@@ -17,6 +17,7 @@
 package it.session.maven.tiles.plugin;
 
 import org.apache.maven.model.Model;
+import org.apache.maven.model.Plugin;
 import org.apache.maven.model.building.DefaultModelBuildingRequest;
 import org.apache.maven.model.building.ModelBuildingRequest;
 import org.apache.maven.model.interpolation.ModelInterpolator;
@@ -47,6 +48,17 @@ public class TilesModelMerger extends ModelMerger {
 
   public void merge(Model target, Model source, boolean sourceDominant, Map<?, ?> hints, ModelInterpolator modelInterpolator) {
 
+    //POM merging does not apply to plugin versions, therefore we need to do it manually
+    if (source.getBuild() != null && target.getBuild() != null) {
+      for(Plugin plugin : source.getBuild().getPlugins()) {
+        Plugin targetPlugin = resolvePlugin(target.getBuild().getPlugins(),plugin);
+        if (targetPlugin != null) {
+          logger.debug("[Tile Merging] setting new version for plugin "+targetPlugin.getArtifactId()+": "+plugin.getVersion());
+          targetPlugin.setVersion(plugin.getVersion());
+        }
+      }
+    }
+
     Map<Object, Object> context = new HashMap<Object, Object>();
     if (hints != null) {
       context.putAll(hints);
@@ -68,6 +80,16 @@ public class TilesModelMerger extends ModelMerger {
     printMessages("[Tile Merging] Fatal Error: ", collector.getFatals(), Logger.LEVEL_FATAL);
     printMessages("[Tile Merging] Error: ", collector.getErrors(), Logger.LEVEL_ERROR);
     printMessages("[Tile Merging] Warning: ", collector.getWarnings(), Logger.LEVEL_WARN);
+  }
+
+  private Plugin resolvePlugin(List<Plugin> plugins, Plugin pluginToResolve) {
+    for(Plugin plugin : plugins) {
+      if (pluginToResolve.getArtifactId().equals(plugin.getArtifactId()) &&
+          pluginToResolve.getGroupId().equals(plugin.getGroupId())) {
+        return plugin;
+      }
+    }
+    return null;
   }
 
   public void mergeProfiles() {
