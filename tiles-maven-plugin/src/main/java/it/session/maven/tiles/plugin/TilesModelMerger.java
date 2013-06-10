@@ -53,8 +53,17 @@ public class TilesModelMerger extends ModelMerger {
       for(Plugin plugin : source.getBuild().getPlugins()) {
         Plugin targetPlugin = resolvePlugin(target.getBuild().getPlugins(),plugin);
         if (targetPlugin != null) {
-          logger.debug("[Tile Merging] setting new version for plugin "+targetPlugin.getArtifactId()+": "+plugin.getVersion());
+          logger.debug("[Maven Tiles - merging] setting new version for plugin "+targetPlugin.getArtifactId()+": "+plugin.getVersion());
           targetPlugin.setVersion(plugin.getVersion());
+        }
+      }
+      if (source.getBuild().getPluginManagement() != null && target.getBuild().getPluginManagement() != null) {
+        for(Plugin plugin : source.getBuild().getPluginManagement().getPlugins()) {
+          Plugin targetPlugin = resolvePlugin(target.getBuild().getPluginManagement().getPlugins(),plugin);
+          if (targetPlugin != null) {
+            logger.debug("[Maven Tiles - merging] setting new version for pluginManagement "+targetPlugin.getArtifactId()+": "+plugin.getVersion());
+            targetPlugin.setVersion(plugin.getVersion());
+          }
         }
       }
     }
@@ -77,9 +86,9 @@ public class TilesModelMerger extends ModelMerger {
     modelInterpolator.interpolateModel(target, target.getProjectDirectory(), mbr, collector);
 
     logger.debug("Merging tile " + source.getArtifactId() + " with POM " + target.getArtifactId());
-    printMessages("[Tile Merging] Fatal Error: ", collector.getFatals(), Logger.LEVEL_FATAL);
-    printMessages("[Tile Merging] Error: ", collector.getErrors(), Logger.LEVEL_ERROR);
-    printMessages("[Tile Merging] Warning: ", collector.getWarnings(), Logger.LEVEL_WARN);
+    printMessages("[Maven Tiles - merging] Fatal Error: ", collector.getFatals(), Logger.LEVEL_FATAL);
+    printMessages("[Maven Tiles - merging] Error: ", collector.getErrors(), Logger.LEVEL_ERROR);
+    printMessages("[Maven Tiles - merging] Warning: ", collector.getWarnings(), Logger.LEVEL_WARN);
   }
 
   private Plugin resolvePlugin(List<Plugin> plugins, Plugin pluginToResolve) {

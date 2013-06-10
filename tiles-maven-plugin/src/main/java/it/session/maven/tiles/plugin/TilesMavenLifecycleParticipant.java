@@ -87,7 +87,7 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
       if (propertyName.startsWith(TilesUtils.TILE_PROPERTY_PREFIX)) {
         mergeTile(currentProject, propertyName, mavenSession);
         tilesProcessed++;
-        logger.debug("Following tile was merged " + propertyName);
+        logger.debug("[Maven Tiles] Following tile was merged " + propertyName);
       }
     }
     return tilesProcessed;
@@ -118,7 +118,7 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
       //If invoked by tests, logger is null
       //@TODO properly inject logger on TilesMavenLifecycleParticipantTest.java
       if (logger != null) {
-        logger.debug(String.format("The following maven Tile have been merged" + currentTileInformation));
+        logger.debug(String.format("[Maven Tiles] The following tile have been merged " + currentTileInformation));
       }
 
     } catch (FileNotFoundException e) {
@@ -152,14 +152,14 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
         if (subModule != topLevelProject) {
           int tilesProcessed = mergeTiles(subModule, mavenSession);
           if (tilesProcessed > 0) {
-            logger.info("Tiles merged for module " + subModule.getArtifactId() + " - " + tilesProcessed);
+            logger.info("[Maven Tiles] "+tilesProcessed+" Tiles merged for module " + subModule.getArtifactId());
           }
         }
       }
     } else {
       int tilesProcessed = mergeTiles(topLevelProject, mavenSession);
       if (tilesProcessed > 0) {
-        logger.info("Tiles merged for module " + topLevelProject.getArtifactId() + " - " + tilesProcessed);
+        logger.info("[Maven Tiles] "+tilesProcessed+" Tiles merged for module " + topLevelProject.getArtifactId());
       }
 
     }
