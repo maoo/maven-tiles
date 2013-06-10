@@ -70,6 +70,32 @@ public class TilesModelMerger extends ModelMerger {
     printMessages("[Tile Merging] Warning: ", collector.getWarnings(), Logger.LEVEL_WARN);
   }
 
+  public void mergeProfiles() {
+    //      logger.info("Before Model injected profiles: "+currentProject.getInjectedProfileIds());
+    //      logger.info("Before Model active profiles: "+currentProject.getActiveProfiles());
+
+    //      logger.info("POM info: "+currentPomInformation);
+
+    //Add profiles to the current list of injected ones
+    //      List<String> tileProfileIds = new ArrayList<String>();
+    //      for (Profile p : tileModel.getProfiles()) {
+    //        mavenSession.getProjectBuildingRequest().addProfile(p);
+    //        tileProfileIds.add(p.getId());
+    //        logger.info("Adding tile profile: "+p.getId());
+    //
+    //      }
+
+    //      List<String> activeProfiles = currentProject.getInjectedProfileIds().get("external");
+    //      if (tileProfileIds != null) {
+    //        activeProfiles.addAll(tileProfileIds);
+    //      }
+
+    //      logger.info("Model injected profiles: "+currentProject.getInjectedProfileIds());
+    //      logger.info("Model active profiles: "+currentProject.getActiveProfiles());
+
+    //      currentProject.setInjectedProfileIds("external",tileProfileIds);
+  }
+
   private void printMessages(String messageTitle, List<String> messages, int level) {
     if (messages.size() > 0) {
       for (String message : messages) {

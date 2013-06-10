@@ -110,7 +110,7 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
       Model tileModel = this.reader.read(new FileInputStream(artifactFile));
 
       //@TODO - work in progess, not working yet
-      mergeProfiles();
+      this.modelMerger.mergeProfiles();
 
       //Merge the tile definition with the current MavenProject
       this.modelMerger.merge(currentProject.getModel(), tileModel, false, null, modelInterpolator);
@@ -169,31 +169,4 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
     this.modelMerger.setLogger(this.logger);
     this.tilesResolver.setLogger(this.logger);
   }
-
-  private void mergeProfiles() {
-    //      logger.info("Before Model injected profiles: "+currentProject.getInjectedProfileIds());
-    //      logger.info("Before Model active profiles: "+currentProject.getActiveProfiles());
-
-    //      logger.info("POM info: "+currentPomInformation);
-
-    //Add profiles to the current list of injected ones
-    //      List<String> tileProfileIds = new ArrayList<String>();
-    //      for (Profile p : tileModel.getProfiles()) {
-    //        mavenSession.getProjectBuildingRequest().addProfile(p);
-    //        tileProfileIds.add(p.getId());
-    //        logger.info("Adding tile profile: "+p.getId());
-    //
-    //      }
-
-    //      List<String> activeProfiles = currentProject.getInjectedProfileIds().get("external");
-    //      if (tileProfileIds != null) {
-    //        activeProfiles.addAll(tileProfileIds);
-    //      }
-
-    //      logger.info("Model injected profiles: "+currentProject.getInjectedProfileIds());
-    //      logger.info("Model active profiles: "+currentProject.getActiveProfiles());
-
-    //      currentProject.setInjectedProfileIds("external",tileProfileIds);	
-  }
-
 }
