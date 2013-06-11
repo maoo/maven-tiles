@@ -15,18 +15,25 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>merge-resources</artifactId>
-  <name>merge-resources-it-test</name>
+  <groupId>it.session.maven.tiles.it</groupId>
+  <artifactId>interpolate-plugin-conf-parent</artifactId>
+  <packaging>pom</packaging>
+  <version>0.8-beta-6-SNAPSHOT</version>
 
-  <parent>
-    <groupId>it.session.maven.tiles</groupId>
-    <artifactId>merge-resources-it-test-parent</artifactId>
-    <version>0.8-beta-6-SNAPSHOT</version>
-  </parent>
+  <modules>
+    <module>surefire-tile</module>
+    <module>merge-tile</module>
+  </modules>
 
-  <properties>
-    <tile.new.resources>it.session.maven.tiles:new-resource-tile:1.0</tile.new.resources>
-    <resources.plugin.folder>src/main/new-resources</resources.plugin.folder>
-  </properties>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>it.session.maven.plugins</groupId>
+        <artifactId>tiles-maven-plugin</artifactId>
+        <version>0.8-beta-6-SNAPSHOT</version>
+        <extensions>true</extensions>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>

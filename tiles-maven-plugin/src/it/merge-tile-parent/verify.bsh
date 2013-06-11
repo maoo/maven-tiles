@@ -1,13 +1,10 @@
 import java.io.*;
 import java.util.*;
 
-try
-{
-    File file = new File( basedir, "merge-resources/target/classes/mytext.txt" );
+try {
+    File file = new File( basedir, "merge-tile/target/classes/mytext.txt" );
     return file.exists();
-}
-catch( Throwable t )
-{
+} catch( Throwable t ) {
     t.printStackTrace();
     return false;
 }

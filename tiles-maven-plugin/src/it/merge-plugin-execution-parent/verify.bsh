@@ -1,0 +1,13 @@
+import java.io.*;
+import java.util.*;
+
+try {
+    File file1 = new File( basedir, "merge-tile/target/classes/pom.txt" );
+    File file2 = new File( basedir, "merge-tile/target/classes/tile.txt" );
+    return file1.exists() && file2.exists();
+} catch( Throwable t ) {
+    t.printStackTrace();
+    return false;
+}
+
+return true;

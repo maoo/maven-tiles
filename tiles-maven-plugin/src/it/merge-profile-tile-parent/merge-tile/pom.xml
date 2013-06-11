@@ -15,30 +15,42 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>it.session.maven.tiles</groupId>
-  <artifactId>merge-resources-it-test-parent</artifactId>
-  <packaging>pom</packaging>
-  <version>0.8-beta-6-SNAPSHOT</version>
-  <name>merge-tile-it-test - Parent POM</name>
+  <artifactId>merge-tile</artifactId>
 
-  <modules>
-    <module>new-resource-tile</module>
-    <module>merge-resources</module>
-  </modules>
+  <parent>
+    <groupId>it.session.maven.tiles.it</groupId>
+    <artifactId>merge-profile-tile-parent</artifactId>
+    <version>0.8-beta-6-SNAPSHOT</version>
+  </parent>
 
-  <properties>
-    <maventiles.plugin.version>0.8-beta-6-SNAPSHOT</maventiles.plugin.version>
-  </properties>
+  <profiles>
+    <profile>
+      <id>enforcer</id>
+      <properties>
+        <tile.new.resource>it.session.maven.tiles.it:enforcer-tile:1.0</tile.new.resource>
+      </properties>
+    </profile>
+  </profiles>
 
   <build>
     <plugins>
       <plugin>
-        <groupId>it.session.maven.plugins</groupId>
-        <artifactId>tiles-maven-plugin</artifactId>
-        <version>${maventiles.plugin.version}</version>
-        <extensions>true</extensions>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-help-plugin</artifactId>
+        <version>2.2</version>
+        <executions>
+          <execution>
+            <id>generate-effective-pom</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>effective-pom</goal>
+            </goals>
+            <configuration>
+              <output>${project.build.directory}/effective-pom.xml</output>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
-
 </project>

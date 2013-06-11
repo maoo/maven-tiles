@@ -48,13 +48,17 @@ public class TilesModelMerger extends ModelMerger {
 
   public void merge(Model target, Model source, boolean sourceDominant, Map<?, ?> hints, ModelInterpolator modelInterpolator) {
 
-    //POM merging does not apply to plugin versions, therefore we need to do it manually
+    //If a Plugin exists on both sources and targets, we need to explicitely merge them
+    //1. Add all configuration elements
+    //2. Add all executions
+    //3. Set the version
     if (source.getBuild() != null && target.getBuild() != null) {
       for(Plugin plugin : source.getBuild().getPlugins()) {
         Plugin targetPlugin = resolvePlugin(target.getBuild().getPlugins(),plugin);
         if (targetPlugin != null) {
           logger.debug("[Maven Tiles - merging] setting new version for plugin "+targetPlugin.getArtifactId()+": "+plugin.getVersion());
-          targetPlugin.setVersion(plugin.getVersion());
+          super.mergePlugin(targetPlugin, plugin, true, null);
+          //targetPlugin.setVersion(plugin.getVersion());
         }
       }
       if (source.getBuild().getPluginManagement() != null && target.getBuild().getPluginManagement() != null) {
@@ -62,7 +66,8 @@ public class TilesModelMerger extends ModelMerger {
           Plugin targetPlugin = resolvePlugin(target.getBuild().getPluginManagement().getPlugins(),plugin);
           if (targetPlugin != null) {
             logger.debug("[Maven Tiles - merging] setting new version for pluginManagement "+targetPlugin.getArtifactId()+": "+plugin.getVersion());
-            targetPlugin.setVersion(plugin.getVersion());
+            super.mergePlugin(targetPlugin, plugin, true, null);
+            //targetPlugin.setVersion(plugin.getVersion());
           }
         }
       }
