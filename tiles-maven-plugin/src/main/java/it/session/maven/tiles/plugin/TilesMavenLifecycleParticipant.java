@@ -113,7 +113,7 @@ public class TilesMavenLifecycleParticipant extends AbstractMavenLifecyclePartic
       this.modelMerger.mergeProfiles();
 
       //Merge the tile definition with the current MavenProject
-      this.modelMerger.merge(currentProject.getModel(), tileModel, false, null, modelInterpolator);
+      this.modelMerger.merge(currentProject.getModel(), tileModel, null, modelInterpolator);
 
       //If invoked by tests, logger is null
       //@TODO properly inject logger on TilesMavenLifecycleParticipantTest.java

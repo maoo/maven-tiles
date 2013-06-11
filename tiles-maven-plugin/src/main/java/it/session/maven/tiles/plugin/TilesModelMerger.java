@@ -46,7 +46,7 @@ public class TilesModelMerger extends ModelMerger {
     return config;
   }
 
-  public void merge(Model target, Model source, boolean sourceDominant, Map<?, ?> hints, ModelInterpolator modelInterpolator) {
+  public void merge(Model target, Model source, Map<?, ?> hints, ModelInterpolator modelInterpolator) {
 
     //If a Plugin exists on both sources and targets, we need to explicitely merge them
     //1. Add all configuration elements
@@ -58,7 +58,6 @@ public class TilesModelMerger extends ModelMerger {
         if (targetPlugin != null) {
           logger.debug("[Maven Tiles - merging] setting new version for plugin "+targetPlugin.getArtifactId()+": "+plugin.getVersion());
           super.mergePlugin(targetPlugin, plugin, true, null);
-          //targetPlugin.setVersion(plugin.getVersion());
         }
       }
       if (source.getBuild().getPluginManagement() != null && target.getBuild().getPluginManagement() != null) {
@@ -67,7 +66,6 @@ public class TilesModelMerger extends ModelMerger {
           if (targetPlugin != null) {
             logger.debug("[Maven Tiles - merging] setting new version for pluginManagement "+targetPlugin.getArtifactId()+": "+plugin.getVersion());
             super.mergePlugin(targetPlugin, plugin, true, null);
-            //targetPlugin.setVersion(plugin.getVersion());
           }
         }
       }
@@ -79,7 +77,8 @@ public class TilesModelMerger extends ModelMerger {
     }
 
     //Now we can merge the source tile with the target model
-    super.merge(target, source, sourceDominant, hints);
+    //The target is dominant, otherwise it would lead to plugin duplication
+    super.merge(target, source, false, hints);
 
     //We need to interpolate model's placeholders using tiles and target model properties
     Properties props = new Properties();
