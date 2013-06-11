@@ -1,0 +1,15 @@
+import java.io.*;
+import java.util.*;
+
+try
+{
+    File file = new File( basedir, "merge-resources/target/classes/mytext.txt" );
+    return file.exists();
+}
+catch( Throwable t )
+{
+    t.printStackTrace();
+    return false;
+}
+
+return true;
