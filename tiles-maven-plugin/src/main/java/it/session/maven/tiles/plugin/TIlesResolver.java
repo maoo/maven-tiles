@@ -72,8 +72,11 @@ public class TilesResolver {
   }
 
   private File resolveArtifactInReactor(MavenProject project, String artifactId, String groupId, String version) {
-    logger.warn("[Maven Tiles] Resolving tile from reactor : " + TilesUtils.getTilesKey(groupId, artifactId, version));
-    logger.warn("[Maven Tiles] current project is : " + TilesUtils.getTilesKey(project.getGroupId(), project.getArtifactId(), project.getVersion()));
+    logger.debug("[Maven Tiles] Resolving tile : " +
+        TilesUtils.getTilesKey(groupId, artifactId, version) +
+        " from reactor project " +
+        TilesUtils.getTilesKey(project.getGroupId(), project.getArtifactId(), project.getVersion()));
+
     if (projectMatches(project, artifactId, groupId, version)) {
       return project.getFile();
     } else {

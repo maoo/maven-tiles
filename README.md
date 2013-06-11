@@ -37,4 +37,4 @@ A great tool for supporting Maven POM development is the [maven-help-plugin](htt
 
 - 1.0 - Plugin (defined in tiles) Activation
 - 1.0 - [Alfresco SDK tiles](https://github.com/maoo/maven-tiles-examples/tree/alfresco) released
-- 1.0 - Other 2 maven-tiles success stories
+- `1.0 - Other 2 maven-tiles success stories
