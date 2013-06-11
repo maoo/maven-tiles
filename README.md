@@ -35,8 +35,6 @@ A great tool for supporting Maven POM development is the [maven-help-plugin](htt
 
 ## ROADMAP
 
-0.9.1 - Test Coverage
-0.9.2 - Test tiles defined in profiles
-1.0 - Plugin Activation
+1.0 - Plugin (defined in tiles) Activation
 1.0 - [Alfresco SDK tiles](https://github.com/maoo/maven-tiles-examples/tree/alfresco) released
 1.0 - Other 2 maven-tiles success stories
