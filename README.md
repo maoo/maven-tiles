@@ -11,7 +11,7 @@ Read more:
 
 ## WHAT IS A MAVEN TILE
 
-Tiles are [plain Maven pom artifacts](https://github.com/maoo/maven-tiles/tree/master/examples/tiles) which contain parts of a Maven POM; every tile can contain
+Tiles are [plain Maven pom artifacts](https://github.com/maoo/maven-tiles-examples/tree/master/tiles) which contain parts of a Maven POM; every tile can contain
 - build data, for example the license tags that a company wants to report on all their artifacts
 - build aspects, for example the runnability of a project could be defined into a jetty-maven-plugin-tile
 
