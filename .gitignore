@@ -1,8 +1,10 @@
-maven-tiles-component/target
-examples/wicket-quickstart/target
 target
+#idea project files
 *.ipr
 *.iml
 *.iws
 .idea
-
+#eclipse project files
+.classpath
+.project
+.settings
