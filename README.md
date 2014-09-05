@@ -1,5 +1,7 @@
 # Maven Tiles
 
+> Note! This project is not actively maintained since May 2013; please check [maven-tiles fork from repaint-io](https://github.com/repaint-io/maven-tiles)
+
 ## WHAT IS MAVEN TILES
 
 Maven Tiles is a Maven Plugin (tiles-maven-plugin) that tries to bring a new level of modularity to Maven, allowing to include multiple pom snippets into your project and overcoming the bottleneck of having the project's parent as single point of inheritance.
